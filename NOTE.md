@@ -1,2 +1,4 @@
-Chapter 1
+NOTE
 =========
+Chapter 1
+---------
