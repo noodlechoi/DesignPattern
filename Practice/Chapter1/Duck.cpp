@@ -5,12 +5,12 @@ using namespace std;
 
 void Duck::performFly()
 {
-	flybh.fly();
+	flybh->fly();
 }
 
 void Duck::performQuack()
 {
-	quackbh.quack();
+	quackbh->quack();
 }
 
 void Duck::swim()
