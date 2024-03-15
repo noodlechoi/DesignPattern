@@ -15,6 +15,8 @@ Chapter 1. 전략 패턴
   - 나중에 어떻게 바뀔 것인가? (재사용성, 확장성, 관리 용이성)
 * * *
 #### 과제
-  - 오리 코드 테스트 C++로 바꿔보기
+  - 오리 코드 테스트 C++로 바꿔보기 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter1)
   - 인터페이스 vs 추상 클래스 차이 정리
+    + 인터페이스는 상태나 구현을 가질 수 없지만, 추상 클래스는 가질 수 있다.
+    + [링크](https://velog.io/@hyongti/C%EC%B6%94%EC%83%81%ED%81%B4%EB%9E%98%EC%8A%A4-vs.-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4-%ED%81%B4%EB%9E%98%EC%8A%A4)
   - 낱말 퀴즈 풀기
