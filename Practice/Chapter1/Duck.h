@@ -10,9 +10,13 @@ protected:
 	QuackBH* quackbh;
 public:
 	Duck() = default;
+	~Duck();
 
 	virtual void display() = 0;
 	void performFly();
 	void performQuack();
 	void swim();
+
+	void setFlyBH(FlyBH*);
+	void setQuackBH(QuackBH*);
 };
