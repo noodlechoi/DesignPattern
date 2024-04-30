@@ -26,9 +26,9 @@ public:
 		weatherData->registerObserver(this);
 	}
 
-	virtual void update(float t, float rh, float pressure) override
+	virtual void update() override
 	{
-		heatIndex = computeHeatIndex(t, rh);
+		heatIndex = computeHeatIndex(weatherData->getTemperature(), weatherData->getHumidity());
 		display();
 	}
 	virtual void display() override

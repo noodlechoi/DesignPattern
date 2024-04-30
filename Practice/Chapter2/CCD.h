@@ -15,10 +15,10 @@ public:
 		weatherData->registerObserver(this);
 	}
 
-	virtual void update(float temperature, float humidity, float pressure) override
+	virtual void update() override
 	{
-		this->temperature = temperature;
-		this->humidity = humidity;
+		this->temperature = weatherData->getTemperature();
+		this->humidity = weatherData->getHumidity();
 		display();	// 이게 최선일까? 12장에서 자세히 배움
 	}
 

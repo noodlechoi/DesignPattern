@@ -29,7 +29,7 @@ public:
 	void notifyObservers() override	// 모든 옵저버에게 상태 변화를 알려줌
 	{
 		for (Observer* observer : observers) {
-			observer->update(temperature, humidity, pressure);
+			observer->update();
 		}
 	}
 
@@ -44,5 +44,20 @@ public:
 		this->humidity = h;
 		this->pressure = p;
 		measurementsChanged();
+	}
+
+	const float getTemperature()
+	{
+		return this->temperature;
+	}
+
+	const float getHumidity()
+	{
+		return this->humidity;
+	}
+
+	const float getPressure()
+	{
+		return this->pressure;
 	}
 };
