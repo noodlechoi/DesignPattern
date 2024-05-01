@@ -12,5 +12,15 @@ std::string Soy::getDescription()
 
 double Soy::cost()
 {
-	return this->beverage->cost() + 0.15;
+	double cost = this->beverage->cost();
+	if (beverage->getSize() == SIZE::TALL) {
+		cost += 0.10;
+	}
+	else if (beverage->getSize() == SIZE::GRANDE) {
+		cost += 0.15;
+	}
+	else if (beverage->getSize() == SIZE::VENTI) {
+		cost += 0.20;
+	}
+	return cost;
 }
