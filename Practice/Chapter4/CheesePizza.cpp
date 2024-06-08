@@ -10,7 +10,7 @@ CheesePizza::CheesePizza(PizzaIngredientFactory* inf)
 
 void CheesePizza::prepare()
 {
-	cout << "준비 중" + name << endl;
+	cout << name + " 준비 중"  << endl;
 	dough = inf->createDough();
 	sauce = inf->createSauce();
 	cheese = inf->createCheese();
