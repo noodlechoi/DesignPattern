@@ -25,6 +25,5 @@ void Pizza::setName(string name)
 
 std::string Pizza::toString()
 {
-	// 피자 이름 출력
 	return this->name;
 }

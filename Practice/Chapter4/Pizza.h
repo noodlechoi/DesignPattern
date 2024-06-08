@@ -1,17 +1,18 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Ingredient.h"
 
 class Pizza
 {
-private:
+protected:
 	std::string name;
-	/*Dough dough;
-	Sauce sauce;
-	std::vector<Veggies> veggies;
-	Cheese cheese;
-	Pepperoni pepperoni;
-	Clams clam;*/
+	Dough* dough;
+	Sauce* sauce;
+	std::vector<Veggies*> veggies;
+	Cheese* cheese;
+	Pepperoni* pepperoni;
+	Clams* clam;
 public:
 	virtual void prepare() = 0;
 	

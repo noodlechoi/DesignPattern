@@ -129,11 +129,15 @@
   <ItemGroup>
     <ClCompile Include="CheesePizza.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NYPIF.cpp" />
     <ClCompile Include="Pizza.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CheesePizza.h" />
+    <ClInclude Include="Ingredient.h" />
+    <ClInclude Include="NYPIF.h" />
     <ClInclude Include="Pizza.h" />
+    <ClInclude Include="PizzaIngredientFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
