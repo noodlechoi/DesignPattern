@@ -104,3 +104,13 @@ Chapter 4. 팩토리 패턴
 * * *
 #### 과제
   - 피자 코드 C++로 구현 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter4)
+
+
+Chapter 4. 싱글턴 패턴
+=========
+### 싱글턴 패턴이란?
+- 클래스 인스턴스를 하나만 만들고, 그 인스턴스로의 전역 접근을 제공한다.
+- 전역변수처럼 사용할 수 있는 패턴이다.
+- 게으른 인스턴스 생성(lazyinstantiation): 인스턴스를 필요한 상황에서 생성하는 것이다.
+### 생각해보기
+  - p210 뇌단련 문제 => 멀티 쓰레드 사용 시 empty, boiled 변수가 중간에 바뀔 수 있다.
