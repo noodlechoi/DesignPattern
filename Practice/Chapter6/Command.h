@@ -9,6 +9,7 @@ public:
 
 class LightONCommand : public Command
 {
+private:
 	Light* light;
 public:
 	LightONCommand(Light* light)
@@ -19,6 +20,22 @@ public:
 	void execute()
 	{
 		this->light->on();
+	}
+};
+
+class GarageDoorOpenCommand : public Command
+{
+private:
+	GarageDoor* garageDoor;
+public:
+	GarageDoorOpenCommand(GarageDoor* garageDoor)
+	{
+		this->garageDoor = garageDoor;
+	}
+
+	void execute()
+	{
+		this->garageDoor->up();
 	}
 };
 
