@@ -19,3 +19,10 @@ public:
 	void lightOn() { cout << "차고 조명이 켜졌습니다" << endl; }
 	void lightOff() { cout << "차고 조명이 꺼졌습니다" << endl; }
 };
+
+class Stereo
+{
+public:
+	void on() { cout << "오디오가 켜졌습니다" << endl; }
+	void off() { cout << "오디오가 켜졌습니다" << endl; }
+};
