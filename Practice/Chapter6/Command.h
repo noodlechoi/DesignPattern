@@ -1,12 +1,17 @@
 #pragma once
 #include "Control.h"
 #include <vector>
-#include <string>
 
 class Command
 {
 public:
 	virtual void execute() = 0;
+};
+
+class NoCommand : public Command // 널 객체
+{
+public:
+	void execute() {}
 };
 
 class LightONCommand : public Command
@@ -57,6 +62,55 @@ public:
 	}
 };
 
+class GarageDoorCloseCommand : public Command
+{
+private:
+	GarageDoor* garageDoor;
+public:
+	GarageDoorCloseCommand(GarageDoor* garageDoor)
+	{
+		this->garageDoor = garageDoor;
+	}
+
+	void execute()
+	{
+		this->garageDoor->down();
+	}
+};
+
+class StereoOnWithCDCommand : public Command
+{
+	Stereo* stereo;
+public:
+	StereoOnWithCDCommand(Stereo* stereo)
+	{
+		this->stereo = stereo;
+	}
+
+	void execute() override
+	{
+		stereo->on();
+		stereo->setCd();
+		stereo->setVolume(11);
+	}
+};
+
+class StereoOffCommand : public Command
+{
+	Stereo* stereo;
+public:
+	StereoOffCommand(Stereo* stereo)
+	{
+		this->stereo = stereo;
+	}
+
+	void execute() override
+	{
+		stereo->off();
+	}
+};
+
+
 class SimpleRemoteControl
 {
 private:
@@ -84,8 +138,8 @@ public:
 	RemoteControl()
 	{
 		for (int i = 0; i < buttonNum; ++i) {
-			onCommands[i] = nullptr;
-			offCommands[i] = nullptr;
+			onCommands.push_back(new NoCommand);
+			offCommands.push_back(new NoCommand);
 		}
 	}
 
@@ -100,7 +154,7 @@ public:
 		onCommands[slot]->execute();
 	}
 
-	void onButtonWasPushed(int slot)
+	void offButtonWasPushed(int slot)
 	{
 		offCommands[slot]->execute();
 	}
@@ -109,10 +163,12 @@ public:
 	{
 		std::string buff{ "\n-----리모컨-----\n" };
 		for (int i = 0; i < onCommands.size(); ++i) {
-			std::string str{ "[slot " + i < "] " };
-			str.append(typeid(onCommands[i]).name());
+			std::string str{ "[slot "};
+			str.append(to_string(i));
+			str.append("]");
+			str.append(typeid(*onCommands[i]).name());
 			str.append("    ");
-			str.append(typeid(offCommands[i]).name());
+			str.append(typeid(*offCommands[i]).name());
 			str.append("\n");
 
 			buff.append(str);
@@ -120,4 +176,6 @@ public:
 
 		return buff;
 	}
+
+	int getButtonNum() { return buttonNum; }
 };
