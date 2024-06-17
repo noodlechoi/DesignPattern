@@ -30,6 +30,7 @@ int main()
 	for (int i = 0; i < remoteControl->getButtonNum(); ++i) {
 		remoteControl->onButtonWasPushed(i);
 		remoteControl->offButtonWasPushed(i);
+		remoteControl->undoButtonWasPushed();
 	}
 
 }

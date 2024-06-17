@@ -6,12 +6,14 @@ class Command
 {
 public:
 	virtual void execute() = 0;
+	virtual void undo() = 0;
 };
 
 class NoCommand : public Command // ³Î °´Ã¼
 {
 public:
 	void execute() {}
+	void undo() {};
 };
 
 class LightONCommand : public Command
@@ -27,6 +29,11 @@ public:
 	void execute()
 	{
 		this->light->on();
+	}
+
+	void undo()
+	{
+		this->light->off();
 	}
 };
 
@@ -44,6 +51,11 @@ public:
 	{
 		this->light->off();
 	}
+
+	void undo()
+	{
+		this->light->on();
+	}
 };
 
 class GarageDoorOpenCommand : public Command
@@ -60,6 +72,11 @@ public:
 	{
 		this->garageDoor->up();
 	}
+
+	void undo()
+	{
+		this->garageDoor->down();
+	}
 };
 
 class GarageDoorCloseCommand : public Command
@@ -75,6 +92,11 @@ public:
 	void execute()
 	{
 		this->garageDoor->down();
+	}
+
+	void undo()
+	{
+		this->garageDoor->up();
 	}
 };
 
@@ -93,6 +115,11 @@ public:
 		stereo->setCd();
 		stereo->setVolume(11);
 	}
+
+	void undo()
+	{
+		stereo->off();
+	}
 };
 
 class StereoOffCommand : public Command
@@ -107,6 +134,13 @@ public:
 	void execute() override
 	{
 		stereo->off();
+	}
+
+	void undo()
+	{
+		stereo->on();
+		stereo->setCd();
+		stereo->setVolume(11);
 	}
 };
 
@@ -133,6 +167,7 @@ class RemoteControl
 private:
 	std::vector<Command*> onCommands;
 	std::vector<Command*> offCommands;
+	Command* undoCommand{};
 	static const int buttonNum{7};
 public:
 	RemoteControl()
@@ -141,6 +176,7 @@ public:
 			onCommands.push_back(new NoCommand);
 			offCommands.push_back(new NoCommand);
 		}
+		undoCommand = new NoCommand;
 	}
 
 	void setCommand(int slot, Command* onCommand, Command* offCommand)
@@ -152,11 +188,18 @@ public:
 	void onButtonWasPushed(int slot)
 	{
 		onCommands[slot]->execute();
+		undoCommand = onCommands[slot];
 	}
 
 	void offButtonWasPushed(int slot)
 	{
 		offCommands[slot]->execute();
+		undoCommand = offCommands[slot];
+	}
+
+	void undoButtonWasPushed()
+	{
+		undoCommand->undo();
 	}
 
 	std::string toString()
