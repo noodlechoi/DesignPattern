@@ -106,7 +106,7 @@ Chapter 4. 팩토리 패턴
   - 피자 코드 C++로 구현 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter4)
 
 
-Chapter 4. 싱글턴 패턴
+Chapter 5. 싱글턴 패턴
 =========
 ### 싱글턴 패턴
   - 클래스 인스턴스를 하나만 만들고, 그 인스턴스로의 전역 접근을 제공한다.
@@ -128,7 +128,7 @@ Chapter 4. 싱글턴 패턴
   - p210 뇌단련 문제 => 멀티 쓰레드 사용 시 empty, boiled 변수가 중간에 바뀔 수 있다.
 
 
-Chapter 5. 커맨드 패턴
+Chapter 6. 커맨드 패턴
 =========
 ### 커맨드 패턴
   - 커맨드 객체를 추가하여 메소드 호출을 캡슐화한다.
