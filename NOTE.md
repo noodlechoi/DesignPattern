@@ -147,3 +147,6 @@ Chapter 5. 커맨드 패턴
   2. 로그에 기록하여 복구 시스템을 구축하는데 사용 가능하다.
 ### 생각해보기
   - p241 뇌단련 문제 => 인보커는 커맨드 객체를 저장하고, 리시버는 그 커맨드 객체 안에서 저장되어 캡슐화된다.
+* * *
+### 과제
+  - 커맨드 패턴 구현 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter6)
