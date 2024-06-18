@@ -400,7 +400,7 @@ public:
 
 	void undo() override
 	{
-		for (int i = 0; i < commands.size(); ++i) {
+		for (int i = commands.size() - 1; i >= 0; --i) {
 			commands[i]->undo();
 		}
 	}

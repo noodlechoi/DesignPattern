@@ -39,4 +39,6 @@ int main()
 	remoteControl->onButtonWasPushed(0);
 	cout << "------ ¸ÅÅ©·Î OFF ------" << endl;
 	remoteControl->offButtonWasPushed(0);
+
+	remoteControl->undoButtonWasPushed();
 }
