@@ -58,6 +58,52 @@ public:
 	}
 };
 
+class TVOnCommand : public Command
+{
+private:
+	TV* tv;
+public:
+	TVOnCommand(TV* tv)
+	{
+		this->tv = tv;
+	}
+
+	void execute() override
+	{
+		this->tv->on();
+		this->tv->setInputChannel(10);
+		this->tv->setVolume(12);
+	}
+
+	void undo() override
+	{
+		this->tv->off();
+	}
+};
+
+class TVOffCommand : public Command
+{
+private:
+	TV* tv;
+public:
+	TVOffCommand(TV* tv)
+	{
+		this->tv = tv;
+	}
+
+	void execute() override
+	{
+		this->tv->off();
+	}
+
+	void undo() override
+	{
+		this->tv->on();
+		this->tv->setInputChannel(10);
+		this->tv->setVolume(12);
+	}
+};
+
 class GarageDoorOpenCommand : public Command
 {
 private:
@@ -334,4 +380,28 @@ public:
 	}
 
 	int getButtonNum() { return buttonNum; }
+};
+
+class MacroCommand : public Command
+{
+	std::vector<Command*> commands;
+public:
+	MacroCommand(std::vector<Command*> commands)
+	{
+		this->commands = commands;
+	}
+
+	void execute() override
+	{
+		for (int i = 0; i < commands.size(); ++i) {
+			commands[i]->execute();
+		}
+	}
+
+	void undo() override
+	{
+		for (int i = 0; i < commands.size(); ++i) {
+			commands[i]->undo();
+		}
+	}
 };

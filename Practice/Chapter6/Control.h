@@ -11,6 +11,18 @@ public:
 	Light(string place) { this->place = place; }
 	void on() { cout << this->place << " 조명이 켜졌습니다" << endl; };
 	void off() { cout << this->place << " 조명이 꺼졌습니다" << endl; };
+	void dim() { cout << this->place << " 조명이 어두워졌습니다" << endl; }
+};
+
+class TV
+{
+	string place;
+public:
+	TV(string place) { this->place = place; }
+	void on() { cout << this->place << "TV가 켜졌습니다" << endl; };
+	void off() { cout << this->place << "TV가 꺼졌습니다" << endl; };
+	void setInputChannel(int num) { cout << num << "채널로 이동했습니다" << endl; }
+	void setVolume(int sound) { cout << "크기가 " << sound << "로 설정되었습니다" << endl; }
 };
 
 class GarageDoor
