@@ -12,8 +12,8 @@ public:
 class NoCommand : public Command // ³Î °´Ã¼
 {
 public:
-	void execute() {}
-	void undo() {};
+	void execute() override {}
+	void undo() override {};
 };
 
 class LightONCommand : public Command
@@ -26,12 +26,12 @@ public:
 		this->light = light;
 	}
 
-	void execute()
+	void execute() override
 	{
 		this->light->on();
 	}
 
-	void undo()
+	void undo() override
 	{
 		this->light->off();
 	}
@@ -47,12 +47,12 @@ public:
 		this->light = light;
 	}
 
-	void execute()
+	void execute() override
 	{
 		this->light->off();
 	}
 
-	void undo()
+	void undo() override
 	{
 		this->light->on();
 	}
@@ -68,12 +68,12 @@ public:
 		this->garageDoor = garageDoor;
 	}
 
-	void execute()
+	void execute() override
 	{
 		this->garageDoor->up();
 	}
 
-	void undo()
+	void undo() override
 	{
 		this->garageDoor->down();
 	}
@@ -89,12 +89,12 @@ public:
 		this->garageDoor = garageDoor;
 	}
 
-	void execute()
+	void execute() override
 	{
 		this->garageDoor->down();
 	}
 
-	void undo()
+	void undo() override
 	{
 		this->garageDoor->up();
 	}
@@ -116,7 +116,7 @@ public:
 		stereo->setVolume(11);
 	}
 
-	void undo()
+	void undo() override
 	{
 		stereo->off();
 	}
@@ -136,7 +136,7 @@ public:
 		stereo->off();
 	}
 
-	void undo()
+	void undo() override
 	{
 		stereo->on();
 		stereo->setCd();
@@ -144,6 +144,116 @@ public:
 	}
 };
 
+class CeilingFanHighCommand : public Command
+{
+	CeilingFan* ceilingFan{};
+	int prevSpeed{};
+public:
+	CeilingFanHighCommand(CeilingFan* ceilingFan)
+	{
+		this->ceilingFan = ceilingFan;
+	}
+
+	void execute() override
+	{
+		prevSpeed = ceilingFan->getSpeed();
+		ceilingFan->high();
+	}
+
+	void undo() override
+	{
+		if (prevSpeed == CeilingFan::HIGH)
+		{
+			ceilingFan->high();
+		}
+		else if (prevSpeed == CeilingFan::MEDIUM)
+		{
+			ceilingFan->medium();
+		}
+		else if (prevSpeed == CeilingFan::LOW)
+		{
+			ceilingFan->low();
+		}
+		else
+		{
+			ceilingFan->off();
+		}
+	}
+};
+
+class CeilingFanMediumCommand : public Command
+{
+	CeilingFan* ceilingFan{};
+	int prevSpeed{};
+public:
+	CeilingFanMediumCommand(CeilingFan* ceilingFan)
+	{
+		this->ceilingFan = ceilingFan;
+	}
+
+	void execute() override
+	{
+		prevSpeed = ceilingFan->getSpeed();
+		ceilingFan->medium();
+	}
+
+	void undo() override
+	{
+		if (prevSpeed == CeilingFan::HIGH)
+		{
+			ceilingFan->high();
+		}
+		else if (prevSpeed == CeilingFan::MEDIUM)
+		{
+			ceilingFan->medium();
+		}
+		else if (prevSpeed == CeilingFan::LOW)
+		{
+			ceilingFan->low();
+		}
+		else
+		{
+			ceilingFan->off();
+		}
+	}
+};
+
+class CeilingFanOffCommand : public Command
+{
+	CeilingFan* ceilingFan{};
+	int prevSpeed{};
+public:
+	CeilingFanOffCommand(CeilingFan* ceilingFan)
+	{
+		this->ceilingFan = ceilingFan;
+	}
+
+	void execute() override
+	{
+		prevSpeed = ceilingFan->getSpeed();
+		ceilingFan->off();
+	}
+
+	void undo() override
+	{
+		if (prevSpeed == CeilingFan::HIGH)
+		{
+			ceilingFan->high();
+		}
+		else if (prevSpeed == CeilingFan::MEDIUM)
+		{
+			ceilingFan->medium();
+		}
+		else if (prevSpeed == CeilingFan::LOW)
+		{
+			ceilingFan->low();
+		}
+		else
+		{
+			ceilingFan->off();
+		}
+	}
+};
 
 class SimpleRemoteControl
 {
@@ -216,6 +326,9 @@ public:
 
 			buff.append(str);
 		}
+		buff.append("[undo] ");
+		buff.append(typeid(*undoCommand).name());
+		buff.append("\n");
 
 		return buff;
 	}

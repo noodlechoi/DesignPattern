@@ -4,33 +4,21 @@ int main()
 {
 	RemoteControl* remoteControl = new RemoteControl;
 
-	Light* livingRoomLight = new Light("거실");
-	Light* kitchenLight = new Light("부엌");
-	GarageDoor* garageDoor = new GarageDoor("차고");
-	Stereo* stereo = new Stereo("거실");
+	CeilingFan* ceilingFan = new CeilingFan("거살");
 
-	LightONCommand* livingRoomLightOn = new LightONCommand(livingRoomLight);
-	LightOffCommand* livingRoomLightOff = new LightOffCommand(livingRoomLight);
-	LightONCommand* kitchenLightmLightOn = new LightONCommand(kitchenLight);
-	LightOffCommand* kitchenLightLightOff = new LightOffCommand(kitchenLight);
+	CeilingFanMediumCommand* ceilingFanMedium = new CeilingFanMediumCommand(ceilingFan);
+	CeilingFanHighCommand* ceilingFanHigh = new CeilingFanHighCommand(ceilingFan);
+	CeilingFanOffCommand* ceilingFanOff = new CeilingFanOffCommand(ceilingFan);
 
-	GarageDoorOpenCommand* garageDoorOpen = new GarageDoorOpenCommand(garageDoor);
-	GarageDoorCloseCommand* garageDoorclose = new GarageDoorCloseCommand(garageDoor);
+	remoteControl->setCommand(0, ceilingFanMedium, ceilingFanOff);
+	remoteControl->setCommand(1, ceilingFanHigh, ceilingFanOff);
 
-	StereoOnWithCDCommand* stereoOnWithCD = new StereoOnWithCDCommand(stereo);
-	StereoOffCommand* stereoOff = new StereoOffCommand(stereo);
-
-	remoteControl->setCommand(0, livingRoomLightOn, livingRoomLightOff);
-	remoteControl->setCommand(1, kitchenLightmLightOn, kitchenLightLightOff);
-	remoteControl->setCommand(2, garageDoorOpen, garageDoorclose);
-	remoteControl->setCommand(3, stereoOnWithCD, stereoOff);
-
+	remoteControl->onButtonWasPushed(0);
+	remoteControl->offButtonWasPushed(0);
 	cout << remoteControl->toString() << endl;
+	remoteControl->undoButtonWasPushed();
 
-	for (int i = 0; i < remoteControl->getButtonNum(); ++i) {
-		remoteControl->onButtonWasPushed(i);
-		remoteControl->offButtonWasPushed(i);
-		remoteControl->undoButtonWasPushed();
-	}
-
+	remoteControl->onButtonWasPushed(1);
+	cout << remoteControl->toString() << endl;
+	remoteControl->undoButtonWasPushed();
 }

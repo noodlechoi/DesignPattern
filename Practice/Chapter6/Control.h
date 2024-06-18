@@ -37,3 +37,51 @@ public:
 	void setRadio() { cout << "Radio가 재생됩니다" << endl; }
 	void setVolume(int sound) { cout << "크기가 " << sound << "로 설정되었습니다" << endl; }
 };
+
+class CeilingFan
+{
+public:
+	static enum speeds
+	{
+		OFF,
+		LOW,
+		MEDIUM,
+		HIGH,
+	};
+	string place;
+	int nowSpeed;
+	CeilingFan(string place)
+	{
+		this->place = place;
+		nowSpeed = OFF;
+	}
+
+	void high()
+	{
+		nowSpeed = HIGH;
+		cout << "속도가 HIGH로 설정되었습니다" << endl;
+	}
+
+	void medium()
+	{
+		nowSpeed = MEDIUM;
+		cout << "속도가 MEDIUM로 설정되었습니다" << endl;
+	}
+
+	void low()
+	{
+		nowSpeed = LOW;
+		cout << "속도가 LOW로 설정되었습니다" << endl;
+	}
+
+	void off()
+	{
+		nowSpeed = OFF;
+		cout << "선풍기가 종료되었습니다" << endl;
+	}
+
+	int getSpeed()
+	{
+		return nowSpeed;
+	}
+};
