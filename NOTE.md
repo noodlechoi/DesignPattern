@@ -150,3 +150,9 @@ Chapter 6. 커맨드 패턴
 * * *
 ### 과제
   - 커맨드 패턴 구현 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter6)
+
+
+Chapter 7. 어댑터 패턴과 퍼사드 패턴
+=========
+### 어댑터
+  - 코드를 바꾸지 않고, 인터페이스를 클라이언트에서 요구하는 형태로 적응시키는 역할을 한다.
