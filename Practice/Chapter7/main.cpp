@@ -6,6 +6,12 @@ void testDuck(Duck* duck)
 	duck->fly();
 }
 
+void testTurkey(Turkey* turkey)
+{
+	turkey->gobble();
+	turkey->fly();
+}
+
 int main()
 {
 	Duck* duck = new MallarDuck;
@@ -22,4 +28,16 @@ int main()
 
 	cout << "\n칠면조 어댑터가 말하길" << endl;
 	testDuck(turkeyAdapter);
+
+	Turkey* duckAdapter = new DuckAdapter(duck);
+
+	cout << "오리가 말하길" << endl;
+	duck->quack();
+	duck->fly();
+
+	cout << "\n칠면조가 말하길" << endl;
+	testTurkey(turkey);
+
+	cout << "\n오리 어댑터가 말하길" << endl;
+	testTurkey(duckAdapter);
 }
