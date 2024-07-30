@@ -1,6 +1,6 @@
-#include "Duck.h"
+// #include "Duck.h"
 
-void testDuck(Duck* duck)
+/*void testDuck(Duck* duck)
 {
 	duck->quack();
 	duck->fly();
@@ -11,10 +11,13 @@ void testTurkey(Turkey* turkey)
 	turkey->gobble();
 	turkey->fly();
 }
+*/
+#include "HomeTheaterFacade.h"
 
 int main()
 {
-	Duck* duck = new MallarDuck;
+	// 어댑터 패턴
+	/*Duck* duck = new MallarDuck;
 
 	Turkey* turkey = new WildTurkey;
 	Duck* turkeyAdapter = new TurketAdapter(turkey);
@@ -39,5 +42,17 @@ int main()
 	testTurkey(turkey);
 
 	cout << "\n오리 어댑터가 말하길" << endl;
-	testTurkey(duckAdapter);
+	testTurkey(duckAdapter);*/
+
+	// 퍼사드 패턴
+	Amplifier* amplifier = new Amplifier;
+	StreamingPlayer* player = new StreamingPlayer;
+	Projector* projector = new Projector;
+	TheaterLights* lights = new TheaterLights;
+	Screen* screen = new Screen;
+	PopcornPopper* popper = new PopcornPopper;
+
+	HomeTheaterFacade* home = new HomeTheaterFacade(amplifier, player, projector, lights, screen, popper);
+
+	home->watchMovie("인터스텔라");
 }

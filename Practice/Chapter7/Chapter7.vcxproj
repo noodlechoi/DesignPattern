@@ -127,10 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Amplifier.h" />
     <ClInclude Include="Duck.h" />
+    <ClInclude Include="HomeTheaterFacade.h" />
+    <ClInclude Include="PopcornPopper.h" />
+    <ClInclude Include="Projector.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="StreamingPlayer.h" />
+    <ClInclude Include="TheaterLights.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HomeTheaterFacade.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Random.cpp" />
   </ItemGroup>
