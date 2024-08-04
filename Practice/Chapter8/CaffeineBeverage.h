@@ -7,5 +7,7 @@ public:
 	virtual void addCondiments() = 0;
 	void boilWater();
 	void pourInCup();
+
+	virtual bool customerWantsCondiments();
 };
 

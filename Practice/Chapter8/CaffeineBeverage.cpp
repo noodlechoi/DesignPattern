@@ -8,7 +8,8 @@ void CaffeineBeverage::prepareRecipe()
 	boilWater();
 	brew();
 	pourInCup();
-	addCondiments();
+	if(customerWantsCondiments())
+		addCondiments();
 }
 
 void CaffeineBeverage::boilWater()
@@ -19,4 +20,9 @@ void CaffeineBeverage::boilWater()
 void CaffeineBeverage::pourInCup()
 {
 	cout << "컵에 따르는 중" << endl;
+}
+
+bool CaffeineBeverage::customerWantsCondiments()
+{
+	return true;
 }
