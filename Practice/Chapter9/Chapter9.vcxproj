@@ -136,6 +136,7 @@
     <ClInclude Include="DinnerMenuIterator.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="MenuItem.h" />
+    <ClInclude Include="PancakeHouseIterator.h" />
     <ClInclude Include="PancakeHouseMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

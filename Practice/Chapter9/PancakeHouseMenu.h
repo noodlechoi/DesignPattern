@@ -1,14 +1,17 @@
 #pragma once
-#include <list>
+#include <vector>
 #include "MenuItem.h"
+
+class Iterator;
 
 class PancakeHouseMenu
 {
 private:
-	std::list<MenuItem*> menuItems;
+	std::vector<MenuItem*> menuItems;
 public:
 	PancakeHouseMenu();
 	void addItem(std::string name, std::string description, bool vegetarian, double price);
-	std::list<MenuItem*> getMenuItems();
+	//std::list<MenuItem*> getMenuItems();
+	Iterator* createIterator();
 };
 

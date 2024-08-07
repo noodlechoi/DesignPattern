@@ -1,6 +1,8 @@
 #pragma once
 #include "MenuItem.h"
 
+class Iterator;
+
 class DinnerMenu
 {
 private:
@@ -10,6 +12,7 @@ private:
 public:
 	DinnerMenu();
 	void addItem(std::string name, std::string description, bool vegetarian, double price);
-	MenuItem** getMenuItems();
+	//MenuItem** getMenuItems();
+	Iterator* createIterator();
 };
 

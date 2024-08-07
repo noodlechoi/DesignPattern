@@ -1,4 +1,5 @@
 #include "DinnerMenu.h"
+#include "DinnerMenuIterator.h"
 #include <iostream>
 
 DinnerMenu::DinnerMenu()
@@ -19,7 +20,12 @@ void DinnerMenu::addItem(std::string name, std::string description, bool vegetar
 	}
 }
 
-MenuItem** DinnerMenu::getMenuItems()
+Iterator* DinnerMenu::createIterator()
 {
-	return menuItems;
+	return new DinnerMenuIterator(menuItems);
 }
+
+//MenuItem** DinnerMenu::getMenuItems()
+//{
+//	return menuItems;
+//}

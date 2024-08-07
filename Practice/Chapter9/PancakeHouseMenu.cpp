@@ -1,4 +1,5 @@
 #include "PancakeHouseMenu.h"
+#include "PancakeHouseIterator.h"
 
 PancakeHouseMenu::PancakeHouseMenu()
 {
@@ -14,7 +15,12 @@ void PancakeHouseMenu::addItem(std::string name, std::string description, bool v
 	menuItems.push_back(menuItem);
 }
 
-std::list<MenuItem*> PancakeHouseMenu::getMenuItems()
+Iterator* PancakeHouseMenu::createIterator()
 {
-	return menuItems;
+	return new PanCakeHouseIterator(menuItems);
 }
+
+//std::list<MenuItem*> PancakeHouseMenu::getMenuItems()
+//{
+//	return menuItems;
+//}
