@@ -22,7 +22,7 @@ public:
 
 	bool hasNext()
 	{
-		if (items[position] == NULL)
+		if (position >= items.size() || items[position] == NULL)
 			return false;
 		else
 			return true;

@@ -21,7 +21,7 @@ public:
 
 	bool hasNext()
 	{
-		if (items[position] == NULL)
+		if (position >= 4 || items[position] == nullptr)
 			return false;
 		else
 			return true;

@@ -130,6 +130,7 @@
     <ClCompile Include="DinnerMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PancakeHouseMenu.cpp" />
+    <ClCompile Include="Waitress.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DinnerMenu.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="PancakeHouseIterator.h" />
     <ClInclude Include="PancakeHouseMenu.h" />
+    <ClInclude Include="Waitress.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
