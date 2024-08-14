@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8a78c3ed-a79e-4e16-9dee-4c336ee303fc}</ProjectGuid>
-    <RootNamespace>Chapter9</RootNamespace>
+    <ProjectGuid>{b7eaef5a-9a1b-46b4-913d-0ee9b0414b34}</ProjectGuid>
+    <RootNamespace>Chapter10</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,20 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DinnerMenu.cpp" />
+    <ClCompile Include="GumballMachine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PancakeHouseMenu.cpp" />
-    <ClCompile Include="Waitress.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DinnerMenu.h" />
-    <ClInclude Include="DinnerMenuIterator.h" />
-    <ClInclude Include="Iterator.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="MenuItem.h" />
-    <ClInclude Include="PancakeHouseIterator.h" />
-    <ClInclude Include="PancakeHouseMenu.h" />
-    <ClInclude Include="Waitress.h" />
+    <ClInclude Include="GumballMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
