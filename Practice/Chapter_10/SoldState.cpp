@@ -1,0 +1,36 @@
+#include "SoldState.h"
+#include <memory>
+
+using namespace std;
+
+SoldState::SoldState(std::unique_ptr<GumballMachine> gumballmachine)
+{
+	this->gumballmachine = std::move(gumballmachine);
+}
+
+void SoldState::insertQuarter()
+{
+	cout << "알맹이를 내보내고 있습니다." << endl;
+}
+
+void SoldState::ejectQuarter()
+{
+	cout << "이미 알갱이를 뽑으셨습니다." << endl;
+}
+
+void SoldState::turnCrank()
+{
+	cout << "손잡이는 한 번만 돌려주세요." << endl;
+}
+
+void SoldState::dispense()
+{
+	gumballmachine->releaseBall();
+	if (gumballmachine->getCount() > 0) {
+		gumballmachine->setState(gumballmachine->getNoQuarterState());
+	}
+	else {
+		cout << "이런, 매진되었습니다." << endl;
+		gumballmachine->setState(gumballmachine->getSoldOutState());
+	}
+}

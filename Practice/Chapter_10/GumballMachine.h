@@ -1,24 +1,31 @@
 #pragma once
+#include "State.h"
 #include <iostream>
+
 
 class GumballMachine
 {
 private:
-	static enum State
-	{
-		SOLD_OUT,
-		NO_QUARTER,
-		HAS_QUARTER,
-		SOLD,
-	};
-	int state{ SOLD_OUT };
+	std::shared_ptr<State> soldOutState;
+	std::shared_ptr<State> noQuarterState;
+	std::shared_ptr<State> hasQuarterState;
+	std::shared_ptr<State> soldState;
+
+	std::shared_ptr<State> state;
 	int count{};
 public:
 	GumballMachine(int count);
 	void insertQuarter();
 	void ejectQuarter();
 	void turnCrank();
-	void dispense();
+	void setState(std::shared_ptr<State> state);
+	void releaseBall();
+
+	std::shared_ptr<State> getNoQuarterState();
+	std::shared_ptr<State> getHasQuarterState();
+	std::shared_ptr<State> getSoldOutState();
+	std::shared_ptr<State> getSoldState();
+
 	void refill(int count);
 	int getCount() const { return count; }
 	void printState() const;

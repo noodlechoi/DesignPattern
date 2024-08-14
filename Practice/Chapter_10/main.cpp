@@ -1,5 +1,4 @@
 #include "GumballMachine.h"
-#include <memory>
 
 using namespace std;
 

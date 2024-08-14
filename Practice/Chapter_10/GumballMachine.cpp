@@ -1,88 +1,74 @@
+#include "NoQuarterState.h"
+//#include "HasQuarterState.h"
+//#include "SoldOutState.h"
+//#include "SoldState.h"
 #include "GumballMachine.h"
+#include <memory>
 
 using namespace std;
 
 GumballMachine::GumballMachine(int count) : count{count}
 {
-	if (count > 0) {
-		state = NO_QUARTER;
+	noQuarterState = std::make_shared<NoQuarterState>(this);
+	/*hasQuarterState = std::make_shared<HasQuarterState>(this);
+	soldOutState = std::make_shared<SoldOutState>(this);
+	soldState = std::make_shared<SoldState>(this);*/
+
+	if (this->count > 0) {
+		state = noQuarterState;
+	}
+	else {
+		state = soldOutState;
 	}
 }
 
 void GumballMachine::insertQuarter()
 {
-	if (state == HAS_QUARTER) {
-		cout << "동전은 한 개만 넣어주세요." << endl;
-	}
-	else if (state == NO_QUARTER) {
-		state = HAS_QUARTER;
-		cout << "동전을 넣으셨습니다." << endl;
-	}
-	else if (state == SOLD_OUT) {
-		cout << "매진 되었습니다. 다음 기회에 이용해주세요." << endl;
-	}
-	else if (state == SOLD) {
-		cout << "알맹이를 내보내고 있습니다." << endl;
-	}
+	state->insertQuarter();
 }
 
 void GumballMachine::ejectQuarter()
 {
-	if (state == HAS_QUARTER) {
-		cout << "동전이 반환됩니다." << endl;
-		state = NO_QUARTER;
-	}
-	else if (state == NO_QUARTER) {
-		cout << "동전을 넣어주세요." << endl;
-	}
-	else if (state == SOLD) {
-		cout << "이미 알갱이를 뽑으셨습니다." << endl;
-	}
-	else if (state == SOLD_OUT) {
-		cout << "동전을 넣지 않으셨습니다. 동전이 반환되지 않습니다." << endl;
-	}
+	state->ejectQuarter();
 }
 
 void GumballMachine::turnCrank()
 {
-	if (state == SOLD) {
-		cout << "손잡이는 한 번만 돌려주세요." << endl;
-	}
-	else if (state == NO_QUARTER) {
-		cout << "동전을 넣어주세요." << endl;
-	}
-	else if (state == SOLD_OUT) {
-		cout << "매진 되었습니다." << endl;
-	}
-	else if (state == HAS_QUARTER) {
-		cout << "손잡이를 돌리셨습니다." << endl;
-		state = SOLD;
-		dispense();
+	state->turnCrank();
+	state->dispense();
+}
+
+void GumballMachine::setState(std::shared_ptr<State> state)
+{
+	this->state = state;
+}
+
+void GumballMachine::releaseBall()
+{
+	cout << "알맹이를 내보내고 있습니다." << endl;
+	if (count > 0) {
+		count--;
 	}
 }
 
-void GumballMachine::dispense()
+std::shared_ptr<State> GumballMachine::getNoQuarterState()
 {
-	if (state == SOLD) {
-		cout << "알맹이를 내보내고 있습니다." << endl;
-		count--;
-		if (count == 0) {
-			cout << "더 이상 알맹이가 없습니다." << endl;
-			state = SOLD_OUT;
-		}
-		else {
-			state = NO_QUARTER;
-		}
-	}
-	else if (state == NO_QUARTER) {
-		cout << "동전을 넣어주세요." << endl;
-	}
-	else if (state == SOLD_OUT) {
-		cout << "매진 되었습니다." << endl;
-	}
-	else if (state == HAS_QUARTER) {
-		cout << "알맹이를 내보낼 수 없습니다." << endl;
-	}
+	return noQuarterState;
+}
+
+std::shared_ptr<State> GumballMachine::getHasQuarterState()
+{
+	return hasQuarterState;
+}
+
+std::shared_ptr<State> GumballMachine::getSoldOutState()
+{
+	return soldOutState;
+}
+
+std::shared_ptr<State> GumballMachine::getSoldState()
+{
+	return soldState;
 }
 
 void GumballMachine::refill(int count)
@@ -95,16 +81,16 @@ void GumballMachine::refill(int count)
 
 void GumballMachine::printState() const
 {
-	if (state == SOLD_OUT) {
+	if (state == soldOutState) {
 		cout << "매진\n";
 	}
-	else if (state == SOLD) {
+	else if (state == soldState) {
 		cout << "판매중\n";
 	}
-	else if (state == HAS_QUARTER) {
+	else if (state == hasQuarterState) {
 		cout << "동전 투입중\n";
 	}
-	else if (state == NO_QUARTER) {
+	else if (state == noQuarterState) {
 		cout << "동전 투입 대기중\n";
 	}
 }
