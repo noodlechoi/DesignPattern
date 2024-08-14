@@ -3,9 +3,9 @@
 
 using namespace std;
 
-SoldState::SoldState(std::unique_ptr<GumballMachine> gumballmachine)
+SoldState::SoldState(GumballMachine* gumballmachine)
 {
-	this->gumballmachine = std::move(gumballmachine);
+	this->gumballmachine = gumballmachine;
 }
 
 void SoldState::insertQuarter()

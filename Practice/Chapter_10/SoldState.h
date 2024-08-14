@@ -2,9 +2,9 @@
 #include "GumballMachine.h"
 class SoldState : public State
 {
-	std::unique_ptr<GumballMachine> gumballmachine;
+	GumballMachine* gumballmachine;
 public:
-	SoldState(std::unique_ptr< GumballMachine> gumballmachine);
+	SoldState(GumballMachine* gumballmachine);
 	void insertQuarter() override;
 	void ejectQuarter() override;
 	void turnCrank() override;

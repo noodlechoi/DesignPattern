@@ -3,7 +3,7 @@
 
 using namespace std;
 
-NoQuarterState::NoQuarterState(std::shared_ptr< GumballMachine> gumballmachine)
+NoQuarterState::NoQuarterState(GumballMachine* gumballmachine)
 {
 	this->gumballmachine = gumballmachine;
 }

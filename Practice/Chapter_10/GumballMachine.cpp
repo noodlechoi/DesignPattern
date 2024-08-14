@@ -1,7 +1,7 @@
 #include "NoQuarterState.h"
-//#include "HasQuarterState.h"
-//#include "SoldOutState.h"
-//#include "SoldState.h"
+#include "HasQuarterState.h"
+#include "SoldOutState.h"
+#include "SoldState.h"
 #include "GumballMachine.h"
 #include <memory>
 
@@ -9,10 +9,11 @@ using namespace std;
 
 GumballMachine::GumballMachine(int count) : count{count}
 {
+	// C2665 => std::make_shared<NoQuarterState>(this);에서 this를 받는 생성자가 없기 때문에 생긴 오류
 	noQuarterState = std::make_shared<NoQuarterState>(this);
-	/*hasQuarterState = std::make_shared<HasQuarterState>(this);
+	hasQuarterState = std::make_shared<HasQuarterState>(this);
 	soldOutState = std::make_shared<SoldOutState>(this);
-	soldState = std::make_shared<SoldState>(this);*/
+	soldState = std::make_shared<SoldState>(this);
 
 	if (this->count > 0) {
 		state = noQuarterState;

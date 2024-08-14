@@ -3,9 +3,9 @@
 
 class HasQuarterState : public State
 {
-	std::unique_ptr<GumballMachine> gumballmachine;
+	GumballMachine* gumballmachine;
 public:
-	HasQuarterState(std::unique_ptr< GumballMachine> gumballmachine);
+	HasQuarterState(GumballMachine* gumballmachine);
 	void insertQuarter() override;
 	void ejectQuarter() override;
 	void turnCrank() override;

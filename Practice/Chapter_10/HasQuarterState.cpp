@@ -3,9 +3,9 @@
 
 using namespace std;
 
-HasQuarterState::HasQuarterState(std::unique_ptr<GumballMachine> gumballmachine)
+HasQuarterState::HasQuarterState(GumballMachine* gumballmachine)
 {
-	this->gumballmachine = std::move(gumballmachine);
+	this->gumballmachine = gumballmachine;
 }
 
 void HasQuarterState::insertQuarter()
