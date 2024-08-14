@@ -2,6 +2,7 @@
 #include "HasQuarterState.h"
 #include "SoldOutState.h"
 #include "SoldState.h"
+#include "WinnerState.h"
 #include "GumballMachine.h"
 #include <memory>
 
@@ -14,6 +15,7 @@ GumballMachine::GumballMachine(int count) : count{count}
 	hasQuarterState = std::make_shared<HasQuarterState>(this);
 	soldOutState = std::make_shared<SoldOutState>(this);
 	soldState = std::make_shared<SoldState>(this);
+	winnerState = std::make_shared<WinnerState>(this);
 
 	if (this->count > 0) {
 		state = noQuarterState;
@@ -70,6 +72,11 @@ std::shared_ptr<State> GumballMachine::getSoldOutState()
 std::shared_ptr<State> GumballMachine::getSoldState()
 {
 	return soldState;
+}
+
+std::shared_ptr<State> GumballMachine::getWinnerState()
+{
+	return winnerState;
 }
 
 void GumballMachine::refill(int count)

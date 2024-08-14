@@ -1,11 +1,11 @@
 #include "HasQuarterState.h"
-#include <memory>
 
 using namespace std;
 
 HasQuarterState::HasQuarterState(GumballMachine* gumballmachine)
 {
 	this->gumballmachine = gumballmachine;
+	randomWinner = new Random;
 }
 
 void HasQuarterState::insertQuarter()
@@ -21,7 +21,13 @@ void HasQuarterState::ejectQuarter()
 void HasQuarterState::turnCrank()
 {
 	cout << "손잡이를 돌리셨습니다." << endl;
-	gumballmachine->setState(gumballmachine->getSoldState());
+	int winner = randomWinner->getInt(0, 11);
+	if ((winner == 1) && gumballmachine->getCount() > 1) {
+		gumballmachine->setState(gumballmachine->getWinnerState());
+	}
+	else {
+		gumballmachine->setState(gumballmachine->getSoldState());
+	}
 }
 
 void HasQuarterState::dispense()

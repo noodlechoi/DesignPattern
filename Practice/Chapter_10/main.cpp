@@ -15,29 +15,10 @@ int main()
 	cout << *machine;
 
 	machine->insertQuarter();
-	machine->ejectQuarter();
 	machine->turnCrank();
-
+	machine->insertQuarter();
+	machine->turnCrank();
 	cout << "\n";
-	cout << *machine;
 
-	machine->insertQuarter();
-	machine->turnCrank();
-	machine->insertQuarter();
-	machine->turnCrank();
-	machine->ejectQuarter();
-
-	cout << "\n";
-	cout << *machine;
-
-	machine->insertQuarter();
-	machine->insertQuarter();
-	machine->turnCrank();
-	machine->insertQuarter();
-	machine->turnCrank();
-	machine->insertQuarter();
-	machine->turnCrank();
-
-	cout << "\n";
 	cout << *machine;
 }

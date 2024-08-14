@@ -1,5 +1,4 @@
 #include "NoQuarterState.h"
-#include <memory>
 
 using namespace std;
 

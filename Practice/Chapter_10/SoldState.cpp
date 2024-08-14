@@ -1,5 +1,4 @@
 #include "SoldState.h"
-#include <memory>
 
 using namespace std;
 
