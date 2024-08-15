@@ -26,4 +26,6 @@ void SoldOutState::turnCrank()
 void SoldOutState::dispense()
 {
 	cout << "매진 되었습니다." << endl;
+
+	
 }

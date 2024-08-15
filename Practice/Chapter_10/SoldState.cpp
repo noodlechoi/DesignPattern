@@ -31,5 +31,9 @@ void SoldState::dispense()
 	else {
 		cout << "이런, 매진되었습니다." << endl;
 		gumballmachine->setState(gumballmachine->getSoldOutState());
+		cout << "알맹이를 리필합니다." << endl;
+		// 리필
+		gumballmachine->refill(5);
+		gumballmachine->setState(gumballmachine->getNoQuarterState());
 	}
 }

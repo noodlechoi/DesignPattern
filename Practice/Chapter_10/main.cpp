@@ -21,4 +21,12 @@ int main()
 	cout << "\n";
 
 	cout << *machine;
+
+	machine->insertQuarter();
+	machine->turnCrank();
+	machine->insertQuarter();
+	machine->turnCrank();
+	cout << "\n";
+
+	cout << *machine;
 }
