@@ -32,12 +32,24 @@ public:
 	void honk();
 };
 
+// 어댑터
 class GooseAdapter : public Quackable
 {
-private:
 	std::unique_ptr<Goose> goose;
 public:
 	GooseAdapter() = delete;
 	GooseAdapter(std::unique_ptr<Goose> goose);
 	void quack() override;
+};
+
+// 데코레이터
+class QuackCounter : public Quackable
+{
+	std::unique_ptr<Quackable> duck;
+	static int number;
+public:
+	QuackCounter() = delete;
+	QuackCounter(std::unique_ptr<Quackable>);
+	void quack() override;
+	static int getQuacks() { return number; }
 };

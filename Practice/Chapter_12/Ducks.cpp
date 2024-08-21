@@ -30,10 +30,23 @@ void Goose::honk()
 
 GooseAdapter::GooseAdapter(std::unique_ptr<Goose> goose)
 {
-	goose = std::move(goose);
+	this->goose = std::move(goose);
 }
 
 void GooseAdapter::quack()
 {
 	goose->honk();
+}
+
+int QuackCounter::number = 0;
+
+QuackCounter::QuackCounter(std::unique_ptr<Quackable> duck)
+{
+	this->duck = std::move(duck);
+}
+
+void QuackCounter::quack()
+{
+	duck->quack();
+	number++;
 }
