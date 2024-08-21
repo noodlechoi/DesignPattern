@@ -3,12 +3,12 @@
 
 using namespace std;
 
-DuckSimulator::DuckSimulator()
+DuckSimulator::DuckSimulator(std::unique_ptr<AbstractDuckFactory> duckFactory)
 {
-	mallardDuck = std::make_unique<QuackCounter>(std::make_unique<MallardDuck>());
-	redheadDuck = std::make_unique<QuackCounter>(std::make_unique<RedheadDuck>());
-	duckCall = std::make_unique<QuackCounter>(std::make_unique<DuckCall>());
-	rubberDuck = std::make_unique<QuackCounter>(std::make_unique<RubberDuck>());
+	mallardDuck = duckFactory->createMallardDuck();
+	redheadDuck = duckFactory->createRedheadDuck();
+	duckCall = duckFactory->createDuckCall();
+	rubberDuck = duckFactory->createRubberDuck();
 	gooseDuck = std::make_unique<GooseAdapter>(make_unique<Goose>());
 }
 

@@ -10,8 +10,8 @@ private:
 	std::unique_ptr<Quackable> rubberDuck;
 	std::unique_ptr<Quackable> gooseDuck;
 public:
-	DuckSimulator();
+	DuckSimulator() = delete;
+	DuckSimulator(std::unique_ptr<AbstractDuckFactory> duckFactory);
 	void simulate();
 	void simulate(std::unique_ptr<Quackable>& duck);
 };
-
