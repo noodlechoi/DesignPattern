@@ -1,5 +1,5 @@
 #pragma once
-#include "Ducks.h"
+#include "Patterns.h"
 
 class DuckSimulator
 {

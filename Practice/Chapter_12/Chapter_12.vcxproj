@@ -130,10 +130,12 @@
     <ClCompile Include="Ducks.cpp" />
     <ClCompile Include="DuckSimulator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Patterns.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ducks.h" />
     <ClInclude Include="DuckSimulator.h" />
+    <ClInclude Include="Patterns.h" />
     <ClInclude Include="Quackable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
