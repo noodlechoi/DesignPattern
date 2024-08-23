@@ -1,5 +1,6 @@
 #pragma once
 #include "Ducks.h"
+#include <vector>
 
 // ¾î´ðÅÍ
 class GooseAdapter : public Quackable
@@ -49,4 +50,14 @@ public:
 	std::unique_ptr<Quackable> createRedheadDuck() override;
 	std::unique_ptr<Quackable> createDuckCall() override;
 	std::unique_ptr<Quackable> createRubberDuck() override;
+};
+
+// ÄÄÆ÷³ÍÆ® ÆÐÅÏ
+class Flock : public Quackable
+{
+	std::vector<std::unique_ptr<Quackable>> quackers;
+public:
+	Flock();
+	void add(std::unique_ptr<Quackable>& quacker);
+	void quack() override;
 };
