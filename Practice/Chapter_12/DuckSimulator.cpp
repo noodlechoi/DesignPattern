@@ -21,21 +21,21 @@ DuckSimulator::DuckSimulator(std::unique_ptr<AbstractDuckFactory> duckFactory)
 		std::unique_ptr<Quackable> mallard = duckFactory->createMallardDuck();
 		flockOfmallards->add(mallard);
 	}
-	flockOfDucks->add(std::make_unique<Flock>(*flockOfmallards));
+	flockOfDucks->add(flockOfmallards);
 }
 
 void DuckSimulator::simulate()
 {
 	cout << "\n오리 시뮬레이션 게임: 전체 무리" << endl;
-	simulate(*flockOfDucks);
+	simulate(flockOfDucks);
 
 	cout << "\n오리 시뮬레이션 게임: 물오리 무리" << endl;
-	simulate(*flockOfmallards);
+	simulate(flockOfmallards);
 
 	cout << "오리가 소리 낸 횟수: " << QuackCounter::getQuacks() << endl;
 }
 
-void DuckSimulator::simulate(Quackable& duck)
+void DuckSimulator::simulate(std::shared_ptr<Quackable> duck)
 {
-	duck.quack();
+	duck->quack();
 }

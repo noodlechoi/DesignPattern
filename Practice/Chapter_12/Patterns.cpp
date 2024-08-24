@@ -77,6 +77,11 @@ void Flock::add(std::unique_ptr<Quackable>& quacker)
 	quackers.push_back(std::move(quacker));
 }
 
+void Flock::add(std::shared_ptr<Quackable> quacker)
+{
+	quackers.push_back(quacker);
+}
+
 void Flock::quack()
 {
 	for (const auto& quacker : quackers) {

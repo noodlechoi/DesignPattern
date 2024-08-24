@@ -55,9 +55,10 @@ public:
 // 컴포넌트 패턴
 class Flock : public Quackable
 {
-	std::vector<std::unique_ptr<Quackable>> quackers;
+	std::vector<std::shared_ptr<Quackable>> quackers;
 public:
 	Flock();
 	void add(std::unique_ptr<Quackable>& quacker);
+	void add(std::shared_ptr<Quackable> quacker);
 	void quack() override;
 };

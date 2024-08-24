@@ -5,11 +5,11 @@ class DuckSimulator
 {
 private:
 	
-	std::unique_ptr<Flock> flockOfDucks;
-	std::unique_ptr<Flock> flockOfmallards;
+	std::shared_ptr<Flock> flockOfDucks;
+	std::shared_ptr<Flock> flockOfmallards;
 public:
 	DuckSimulator() = delete;
 	DuckSimulator(std::unique_ptr<AbstractDuckFactory> duckFactory);
 	void simulate();
-	void simulate(Quackable& duck);
+	void simulate(std::shared_ptr<Quackable> duck);
 };
