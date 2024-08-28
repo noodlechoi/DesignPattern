@@ -1,6 +1,5 @@
 #pragma once
 #include "Ducks.h"
-#include <vector>
 
 // ¾î´ðÅÍ
 class GooseAdapter : public Quackable
@@ -22,6 +21,8 @@ public:
 	QuackCounter(std::unique_ptr<Quackable>);
 	void quack() override;
 	static int getQuacks() { return number; }
+	void registerObserver(Observer* observer) override;
+	void notifyObservers() override;
 };
 
 // ÆÑÅä¸®
@@ -61,4 +62,6 @@ public:
 	void add(std::unique_ptr<Quackable>& quacker);
 	void add(std::shared_ptr<Quackable> quacker);
 	void quack() override;
+	void registerObserver(Observer* observer) override;
+	void notifyObservers() override;
 };

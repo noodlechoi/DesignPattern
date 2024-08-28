@@ -132,6 +132,7 @@
     <ClCompile Include="DuckSimulator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Patterns.cpp" />
+    <ClCompile Include="Quackable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ducks.h" />

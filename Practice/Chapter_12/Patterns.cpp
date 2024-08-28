@@ -9,6 +9,8 @@ void GooseAdapter::quack()
 	goose->honk();
 }
 
+// ==================================== //
+
 int QuackCounter::number = 0;
 
 QuackCounter::QuackCounter(std::unique_ptr<Quackable> duck)
@@ -20,6 +22,16 @@ void QuackCounter::quack()
 {
 	duck->quack();
 	number++;
+}
+
+void QuackCounter::registerObserver(Observer* observer)
+{
+	duck->registerObserver(observer);
+}
+
+void QuackCounter::notifyObservers()
+{
+	duck->notifyObservers();
 }
 
 // ==================================== //
@@ -87,4 +99,15 @@ void Flock::quack()
 	for (const auto& quacker : quackers) {
 		quacker->quack();
 	}
+}
+
+void Flock::registerObserver(Observer* observer)
+{
+	for (const auto& quacker : quackers) {
+		quacker->registerObserver(observer);
+	}
+}
+
+void Flock::notifyObservers()
+{
 }
