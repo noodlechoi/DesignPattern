@@ -1,11 +1,6 @@
 ###### [헤드 퍼스트 패턴 깃허브](https://github.com/IT-Book-Organization/HeadFirst-DesignPattern)
 [클래스](https://kangworld.tistory.com/240)
 
-# 목차
-[객체지향 원칙](#객체지향-원칙)
-
-[Chapter 1. 전략 패턴](chapter-1.-전략-패턴)
-
 ## 객체지향 원칙
 - 바뀌는 부분은 캡슐화한다.
 - 상속보다 구성을 활용한다.
