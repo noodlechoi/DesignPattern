@@ -1,2 +1,4 @@
 # DesignPattern
- 헤드 퍼스트 디자인 패턴 공부
+ 디자인 패턴 공부
+ Head First
+ Game Programming
