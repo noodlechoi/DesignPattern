@@ -1,13 +1,15 @@
 #include "InputHandler.h"
 #include <conio.h>
 
-void InputHandler::handlerInput()
+Command* InputHandler::handlerInput()
 {
 	char k = _getch();
-	if (k == 'x') buttonX_->execute();
-	else if (k == 'y') buttonY_->execute();
-	else if (k == 'a') buttonA_->execute();
-	else if (k == 'b') buttonB_->execute();
+	if (k == 'x') return buttonX_;
+	else if (k == 'y')  return buttonY_;
+	else if (k == 'a')  return buttonA_;
+	else if (k == 'b')  return buttonB_;
+
+	return nullptr;
 }
 
 InputHandler::InputHandler()

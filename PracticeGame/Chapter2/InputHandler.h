@@ -4,7 +4,7 @@
 class InputHandler
 {
 public:
-	void handlerInput();
+	Command* handlerInput();
 	InputHandler();
 private:
 	Command* buttonX_;

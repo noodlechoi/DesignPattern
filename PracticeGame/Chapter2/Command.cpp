@@ -1,26 +1,12 @@
 #include "Command.h"
-#include <iostream>
 
-namespace Key
+
+void JumpCommand::execute(GameActor& actor)
 {
-	void jump()
-	{
-		std::cout << "Á¡ÇÁ\n";
-	}
-
-	void fireGun()
-	{
-		std::cout << "»§¾ß\n";
-	}
+	actor.jump();
 }
 
-
-void JumpCommand::execute()
+void FireCommand::execute(GameActor& actor)
 {
-	Key::jump();
-}
-
-void FireCommand::execute()
-{
-	Key::fireGun();
+	actor.fireGun();
 }

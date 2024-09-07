@@ -3,6 +3,13 @@
 int main()
 {
 	InputHandler h;
-	while(1)
-		h.handlerInput();
+	GameActor actor;
+
+	Command* command;
+	while (1) {
+		command = h.handlerInput();
+		if (command) {
+			command->execute(actor);
+		}
+	}
 }
