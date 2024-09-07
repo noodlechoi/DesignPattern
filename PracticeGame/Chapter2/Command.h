@@ -5,19 +5,19 @@ class Command
 {
 public:
 	virtual ~Command() {}
-	virtual void execute(GameActor& actor) = 0;
+	virtual void execute() = 0;
+	virtual void undo() = 0;
 };
 
-class JumpCommand : public Command
+class MoveUnitCommand : public Command
 {
 public:
-	virtual void execute(GameActor& actor) override;
-};
+	MoveUnitCommand(Unit* unit, int x, int y) : unit{ unit }, x{ x }, y{ y }, xBefore{}, yBefore{} {}
 
-class FireCommand : public Command
-{
-public:
-	virtual void execute(GameActor& actor) override;
+	virtual void execute() override;
+	virtual void undo() override;
+private:
+	Unit* unit;
+	int x, y;
+	int xBefore, yBefore;
 };
-
-// 그외 생략

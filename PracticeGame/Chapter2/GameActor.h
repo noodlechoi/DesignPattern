@@ -1,9 +1,12 @@
 #pragma once
 
-class GameActor
+class Unit
 {
 public:
-	void jump();
-	void fireGun();
+	Unit() : x{}, y{} {}
+	void MoveTo(int x, int y);
+	int GetX() { return x; }
+	int GetY() { return y; }
 private:
+	int x, y;
 };

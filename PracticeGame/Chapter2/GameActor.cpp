@@ -1,12 +1,7 @@
 #include "GameActor.h"
-#include <iostream>
 
-void GameActor::jump()
+void Unit::MoveTo(int x, int y)
 {
-	std::cout << "Á¡ÇÁ\n";
-}
-
-void GameActor::fireGun()
-{
-	std::cout << "»§¾ß\n";
+	this->x = x;
+	this->y = y;
 }
