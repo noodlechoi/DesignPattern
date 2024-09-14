@@ -72,3 +72,30 @@ namespace SpawnFunc
 		Monster* spawnMonster() { return spawn_(); }
 	};
 }
+
+namespace SpawnTemplate
+{
+	class Monster
+	{
+	public:
+		virtual ~Monster() {}
+	};
+
+	class Ghost : public Monster
+	{
+	};
+	
+	class Spawner
+	{
+	public:
+		virtual ~Spawner() {}
+		virtual Monster* spawnMonster() = 0;
+	};
+
+	template<typename T>
+	class SpawnerFor : public Spawner
+	{
+	public:
+		virtual Monster* spawnMonster() override { return new T(); }
+	};
+}
