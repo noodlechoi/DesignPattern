@@ -1,10 +1,9 @@
 #include "MonsterSpawn.h"
 
-using namespace CloneMonster;
+using namespace SpawnFunc;
 
 int main()
 {
 	// 유령 스포너 생성
-	Monster* ghostPrototype = new Ghost(15, 3);
-	Spawner* ghostSpawner = new Spawner(ghostPrototype);
+	Spawner* ghostSpawner = new Spawner(spawnGhost);
 }

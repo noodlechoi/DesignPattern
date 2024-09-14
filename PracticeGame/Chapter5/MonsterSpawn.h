@@ -35,3 +35,40 @@ namespace CloneMonster
 		}
 	};
 }
+
+namespace SpawnFunc
+{
+	class Monster
+	{
+	public:
+		virtual ~Monster() {}
+		virtual Monster* clone() = 0;
+	};
+
+	class Ghost : public Monster
+	{
+	public:
+		Ghost()  {}
+		virtual Monster* clone() override
+		{
+			return new Ghost();
+		}
+	};
+
+	Monster* spawnGhost()
+	{
+		return new Ghost();
+	}
+
+	// 함수 포인터 선언
+	typedef Monster* (*SpawnCallback) ();
+
+	class Spawner
+	{
+	private:
+		SpawnCallback spawn_;
+	public:
+		Spawner(SpawnCallback spawn) :spawn_{spawn} {}
+		Monster* spawnMonster() { return spawn_(); }
+	};
+}
