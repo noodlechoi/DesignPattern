@@ -52,7 +52,11 @@ namespace StatePattern
 	public:
 		void handleInput(Input input)
 		{
-			state_->handleInput(*this, input);
+			HeroineState* state = state_->handleInput(*this, input);
+			if (state != nullptr) {
+				delete state_;
+				state_ = state;
+			}
 		}
 		void update()
 		{
@@ -70,7 +74,7 @@ namespace StatePattern
 		static DuckingState ducking;
 		// 기타 상태
 		virtual ~HeroineState() {}
-		virtual void handleInput(Heroine& heroine, Input input) {}
+		virtual HeroineState* handleInput(Heroine& heroine, Input input) {}
 		virtual void update(Heroine& heroine) {}
 	};
 
@@ -81,11 +85,10 @@ namespace StatePattern
 	public:
 		DuckingState() : chargeTime_{} {}
 
-		virtual void handleInput(Heroine& heroine, Input input) override
+		virtual HeroineState* handleInput(Heroine& heroine, Input input) override
 		{
 			if (input == RELEASE_DOWN) {
-				// 일어선 상태로 바꾼다
-				heroine.state_ = &HeroineState::ducking;
+				return new DuckingState();
 			}
 		}
 
