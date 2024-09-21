@@ -48,6 +48,7 @@ namespace StatePattern
 
 	class Heroine
 	{
+		friend DuckingState;
 	public:
 		void handleInput(Input input)
 		{
@@ -66,6 +67,8 @@ namespace StatePattern
 	class HeroineState
 	{
 	public:
+		static DuckingState ducking;
+		// 기타 상태
 		virtual ~HeroineState() {}
 		virtual void handleInput(Heroine& heroine, Input input) {}
 		virtual void update(Heroine& heroine) {}
@@ -82,6 +85,7 @@ namespace StatePattern
 		{
 			if (input == RELEASE_DOWN) {
 				// 일어선 상태로 바꾼다
+				heroine.state_ = &HeroineState::ducking;
 			}
 		}
 
