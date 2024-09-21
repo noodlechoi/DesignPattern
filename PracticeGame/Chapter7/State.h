@@ -49,24 +49,29 @@ namespace StatePattern
 	class Heroine
 	{
 	public:
-		void handleInput(Input input);
-		void update();
+		void handleInput(Input input)
+		{
+			state_->handleInput(*this, input);
+		}
+		void update()
+		{
+			state_->update(*this);
+		}
 		void superBomb() {}
 		static const int MAX_CHARGE{ 5 };
 	private:
-		State state_;
-		int chargeTime_{};
+		HeroineState* state_;
 	};
 
-	class HerineState
+	class HeroineState
 	{
 	public:
-		virtual ~HerineState() {}
+		virtual ~HeroineState() {}
 		virtual void handleInput(Heroine& heroine, Input input) {}
 		virtual void update(Heroine& heroine) {}
 	};
 
-	class DuckingState : public HerineState
+	class DuckingState : public HeroineState
 	{
 	private:
 		int chargeTime_;
