@@ -56,6 +56,8 @@ namespace StatePattern
 			if (state != nullptr) {
 				delete state_;
 				state_ = state;
+
+				state_->enter(*this);
 			}
 		}
 		void update()
@@ -76,6 +78,7 @@ namespace StatePattern
 		virtual ~HeroineState() {}
 		virtual HeroineState* handleInput(Heroine& heroine, Input input) {}
 		virtual void update(Heroine& heroine) {}
+		virtual void enter(Heroine& heroine) {}
 	};
 
 	class DuckingState : public HeroineState
@@ -99,5 +102,8 @@ namespace StatePattern
 				heroine.superBomb();
 			}
 		}
+
+		virtual void enter(Heroine& heroine) {}
+
 	};
 }
