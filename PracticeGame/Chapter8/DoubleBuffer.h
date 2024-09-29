@@ -54,20 +54,27 @@ namespace DoubleBuffer
 		Framebuffer& getBuffer() { return *current_; }
 	};
 }
-#include <iostream>
+
 namespace AI
 {
 	class Actor
 	{
 	private:
-		bool slapped_;
+		bool currentSlapped_;
+		bool nextSlapped_;
 	public:
-		Actor() : slapped_{false} {}
+		Actor() : currentSlapped_{false} {}
 		virtual ~Actor() {}
 		virtual void update() = 0;
-		void reset() { slapped_ = false; }
-		void slap() { slapped_ = true; }
-		bool wasSlapped() { return slapped_; }
+		void swap()
+		{
+			// 버퍼 교체
+			currentSlapped_ = nextSlapped_;
+			// 다음 버퍼 초기화
+			nextSlapped_ = false;
+		}
+		void slap() { nextSlapped_ = true; }
+		bool wasSlapped() { return currentSlapped_; }
  	};
 
 	class Comedian : public Actor
@@ -80,7 +87,6 @@ namespace AI
 		{
 			if (wasSlapped()) {
 				facing_->slap();
-				std::cout << "뺨" << std::endl;
 			}
 		}
 	};
@@ -99,7 +105,9 @@ namespace AI
 		{
 			for (int i = 0; i < NUM_ACTORS; ++i) {
 				actors_[i]->update();
-				actors_[i]->reset();
+			}
+			for (int i = 0; i < NUM_ACTORS; ++i) {
+				actors_[i]->swap();
 			}
 		}
 	};
