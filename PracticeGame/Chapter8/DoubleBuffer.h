@@ -112,3 +112,21 @@ namespace AI
 		}
 	};
 }
+
+namespace offset
+{
+	class Actor
+	{
+	private:
+		static int current_;
+		static int next() { return 1 - current_; }
+
+		bool slapped_[2];
+	public:
+		static void init() { current_ = 0; }
+		static void swap() { current_ = next(); }
+
+		void slap() { slapped_[next()] = true; }
+		bool wasSlapped() { return slapped_[current_]; }
+	};
+}
