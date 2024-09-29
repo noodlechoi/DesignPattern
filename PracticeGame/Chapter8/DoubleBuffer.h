@@ -31,17 +31,76 @@ namespace DoubleBuffer
 	class Scene
 	{
 	private:
-		Framebuffer buffer_;
+		Framebuffer buffer_[2];
+		Framebuffer* current_;
+		Framebuffer* next_;
+		void swap()
+		{
+			// 버퍼 포인터만 교체
+			Framebuffer* temp = current_;
+			current_ = next_;
+			next_ = temp;
+		}
 	public:
+		Scene() : current_{&buffer_[0]}, next_{ &buffer_[1] } {}
 		void draw()
 		{
-			buffer_.clear();
-			buffer_.draw(1, 1);
-			// 이때 비디오 드라이버가 픽셀 버퍼 전체를 읽을 수도 있다.
-			buffer_.draw(2, 1);
-			buffer_.draw(3, 1);
-			buffer_.draw(4, 1);
+			next_->clear();
+			next_->draw(1, 1);
+			// ...
+			next_->draw(4, 1);
+			swap();
 		}
-		Framebuffer& getBuffer() { return buffer_; }
+		Framebuffer& getBuffer() { return *current_; }
+	};
+}
+#include <iostream>
+namespace AI
+{
+	class Actor
+	{
+	private:
+		bool slapped_;
+	public:
+		Actor() : slapped_{false} {}
+		virtual ~Actor() {}
+		virtual void update() = 0;
+		void reset() { slapped_ = false; }
+		void slap() { slapped_ = true; }
+		bool wasSlapped() { return slapped_; }
+ 	};
+
+	class Comedian : public Actor
+	{
+	private:
+		Actor* facing_;
+	public:
+		void face(Actor* actor) { facing_ = actor; }
+		virtual void update()
+		{
+			if (wasSlapped()) {
+				facing_->slap();
+				std::cout << "뺨" << std::endl;
+			}
+		}
+	};
+
+	class Stage
+	{
+	private:
+		static const int NUM_ACTORS = 3;
+		Actor* actors_[NUM_ACTORS];
+	public:
+		void add(Actor* actor, int index)
+		{
+			actors_[index] = actor;
+		}
+		void update()
+		{
+			for (int i = 0; i < NUM_ACTORS; ++i) {
+				actors_[i]->update();
+				actors_[i]->reset();
+			}
+		}
 	};
 }
