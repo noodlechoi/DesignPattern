@@ -22,7 +22,7 @@ int main()
 	}*/
 
 	// 해결, 가변 시간 간격
-	double last = getCurrentTime();
+	/*double last = getCurrentTime();
 	while (true) {
 		double current = getCurrentTime();
 		double elapsed = current - last;
@@ -30,5 +30,22 @@ int main()
 		update(elapsed);
 		render();
 		last = current;
+	}*/
+
+	// 해결, 고정 시간 간격
+	double previous = getCurrentTime();
+	double lag = 0.0;	// 실제 시간에 비해 게임 시간이 얼마나 뒤처졌는지 의미
+	while (true) {
+		double current = getCurrentTime();
+		double elapsed = current - previous;
+		previous = current;
+		lag += elapsed;
+		processInput();
+
+		while (lag >= MS_PER_FRAME) {
+			update();
+			lag -= MS_PER_FRAME;
+		}
+		render();
 	}
 }

@@ -10,6 +10,7 @@ namespace GameLoop
 	}
 
 	void update(double) {}
+	void update() {}
 
 	void render() {}
 
