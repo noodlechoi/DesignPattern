@@ -13,6 +13,7 @@ namespace GameLoop
 	void update() {}
 
 	void render() {}
+	void render(double) {}
 
 	double getCurrentTime() {}
 

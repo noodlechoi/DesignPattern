@@ -46,6 +46,6 @@ int main()
 			update();
 			lag -= MS_PER_FRAME;
 		}
-		render();
+		render(lag / MS_PER_FRAME);
 	}
 }
