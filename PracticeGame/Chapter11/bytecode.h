@@ -42,6 +42,9 @@ namespace VM
 	void setHealth(int winzard, int amount) {}
 	void setWisdom(int winzard, int amount) {}
 	void setAgility(int winzard, int amount) {}
+	int getHealth(int winzard) { return 0; }
+	int getWisdom(int winzard) { return 0; }
+	int getAgility(int winzard) { return 0; }
 	void playSound(int soundId) {}
 	void spawnParticles(int particleType) {}
 	static int SOUND_BANG = 0;
@@ -55,6 +58,10 @@ namespace VM
 		INST_SET_AGILITY = 0X02,
 		INST_SET_SOUND = 0X03,
 		INST_SET_PARICLES = 0X04,
+		INST_GET_HEALTH = 0X05,
+		INST_GET_WISDOM = 0X06,
+		INST_GET_AGILITY = 0X07,
+		INST_ADD = 0X08,
 	};
 
 	void assert(bool) {}
@@ -85,6 +92,18 @@ namespace VM
 			for (int i = 0; i < size; ++i) {
 				char instruction = bytecode[i];
 				switch (instruction) {
+				case INST_GET_HEALTH:
+					int wizard = pop();
+					push(getHealth(wizard));
+					break;
+				case INST_GET_WISDOM:
+					int wizard = pop();
+					push(getWisdom(wizard));
+					break;
+				case INST_GET_AGILITY:
+					int wizard = pop();
+					push(getAgility(wizard));
+					break;
 				case INST_SET_HEALTH:
 					int amount = pop();
 					int wizard = pop();
@@ -106,6 +125,12 @@ namespace VM
 				case INST_SET_PARICLES:
 					spawnParticles(pop());
 					break;
+				case INST_ADD: {
+					int b = pop();
+					int a = pop();
+					push(a + b);
+					break;
+				}
 				default:
 					break;
 				}
