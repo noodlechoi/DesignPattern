@@ -57,28 +57,54 @@ namespace VM
 		INST_SET_PARICLES = 0X04,
 	};
 
+	void assert(bool) {}
+
 	class VM
 	{
+	private:
+		static const int MAX_STACK = 128;
+		int stackSize_;
+		int stack_[MAX_STACK];
 	public:
+		VM() : stackSize_{} {}
+		void push(int value)
+		{
+			// 스택 오버플로 검사
+			assert(stackSize_ < MAX_STACK);
+			stack_[stackSize_++] = value;
+		}
+		int pop()
+		{
+			// 비어 있는지 확인
+			assert(stackSize_ > 0);
+			return stack_[--stackSize_];
+		}
+
 		void interpret(char bytecode[], int size)
 		{
 			for (int i = 0; i < size; ++i) {
 				char instruction = bytecode[i];
 				switch (instruction) {
 				case INST_SET_HEALTH:
-					setHealth(0, 100);
+					int amount = pop();
+					int wizard = pop();
+					setHealth(wizard, amount);
 					break;
 				case INST_SET_WISDOM:
-					setWisdom(0, 100);
+					int amount = pop();
+					int wizard = pop();
+					setWisdom(wizard, amount);
 					break;
 				case INST_SET_AGILITY:
-					setAgility(0, 100);
+					int amount = pop();
+					int wizard = pop();
+					setAgility(wizard, amount);
 					break;
 				case INST_SET_SOUND:
-					playSound(SOUND_BANG);
+					playSound(pop());
 					break;
 				case INST_SET_PARICLES:
-					spawnParticles(PARCICLE_FLAME);
+					spawnParticles(pop());
 					break;
 				default:
 					break;
