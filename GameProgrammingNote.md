@@ -1,3 +1,8 @@
+# 목차
+1. [시작](https://github.com/noodlechoi/DesignPattern/edit/main/GameProgrammingNote.md#chapter-1-%EA%B5%AC%EC%A1%B0-%EC%84%B1%EB%8A%A5-%EA%B2%8C%EC%9E%84)
+2. [명령]
+
+
 # Chapter 1. 구조, 성능, 게임
 ## 1.1 소프트웨어 구조란?
   ### 좋은 소프트웨어 구조란?
