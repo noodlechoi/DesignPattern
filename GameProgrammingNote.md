@@ -1,8 +1,3 @@
-# 목차
-1. [시작](https://github.com/noodlechoi/DesignPattern/edit/main/GameProgrammingNote.md#chapter-1-%EA%B5%AC%EC%A1%B0-%EC%84%B1%EB%8A%A5-%EA%B2%8C%EC%9E%84)
-2. [명령]
-
-
 # Chapter 1. 구조, 성능, 게임
 ## 1.1 소프트웨어 구조란?
   ### 좋은 소프트웨어 구조란?
@@ -682,3 +677,4 @@ private:
 - 두 패턴의 **유일한 차이점** 은 행동 관련 코드를 바로 실행하지 않고 나중에 실행할수 있도록 바이트코드 명령어로 출력한다는 것뿐이다.
 - 루아 프로그래밍 언어는 레지스터 기반 바이트코드 VM으로 간결하게 구현되어 있다.
 - 키즈멧(Kismet)은 그래픽 스크립트 툴이다.
+- [바이트코드 예제](https://github.com/noodlechoi/DesignPattern/tree/main/PracticeGame/Chapter11)
