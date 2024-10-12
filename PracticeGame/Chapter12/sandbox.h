@@ -37,3 +37,27 @@ protected:
 		}
 	}
 };
+
+namespace Modified
+{
+	class Superpower
+	{
+	private:
+		SoundPlayer soundPlayer_;
+	public:
+		virtual ~Superpower() {}
+	protected:
+		virtual void activate() = 0;	// 샌드박스 메서드
+		SoundPlayer& getSoundPlayer()
+		{
+			return soundPlayer_;
+		}
+	};
+
+	class SoundPlayer
+	{
+		void playSound(int sound, double volume) {}
+		void stopSound(int sound) {}
+		void setVolume(int sound) {}
+	};
+}
