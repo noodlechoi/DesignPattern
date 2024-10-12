@@ -744,3 +744,48 @@ private:
     - 상위 클래스의 메서드 개수를 줄일 수 있다.
     - 보조 클래스에 있는 코드가 유지보수하기 더 쉬운 편이다.
     - 상위 클래스와 다른 시스템과의 커플링을 낮출 수 있다.
+### 상위 클래스는 필요한 객체를 어떻게 얻는가?
+#### 상위 클래스의 생성자로 받기
+- 하위 클래스 생성자가 인수로 받아야 한다는 문제가 발생한다. __원치 않게 모든 하위 클래스에 상위 클래스의 상태가 노출된다.__
+- 유지보수에 좋지 않다.
+#### 2단계 초기화
+- 생성자는 매개변수를 받지 않고 그냥 객체를 생성한 뒤, 상위 클래스 메서드를 따로 실행해 필요한 데이터를 제공한다.
+- 까먹지 않고 init()를 호출해야 한다는 문제가 있다.
+- 해결
+    - 객체 생성 과정 전체를 한 함수로 캡슐화하면 해결할 수 있다.
+    - 셍성자를 private에 두고 friend 클래스를 잘 활용하면 캡슐화할 수 있다.
+#### 정적 객체로 만들기
+- 상태 객체가 하나만 필요하다면(싱글턴) 상태를 상위 클래스의 **private 정적** 멤버 변수로 만들 수 있다.
+- 여전히 초기화는 필요하지만 인스턴스마다 하지 않고 초능력 클래스에서 한 번만 초기화하면 된다.
+- 이 방식은 어떤 상태가 굉장히 많은 객체에 공유되기 때문에 **싱글턴의 문제가 따라온다는 점** 을 유의해야 한다. private로 캡슐화하기 때문에 전역적으로 보이지 않지만, 코드를 이해아기가 전보다 어려워진다.
+- 메모리 사용량을 줄일 수 있다.
+```
+class Superpower
+{
+private:
+  static ParticleSystem* particles_;
+public:
+  static void init(ParticleSystem* particles)
+  {
+    particles_ = particles;
+  }
+};
+```
+#### 서비스 중개자 이용하기
+- 앞에서는 초기화 부담을 외부 코드에 넘기고 있다.
+- *서비스 중개자 패턴(16장)* 을 사용하여 해결한다.
+```
+class Superpower
+{
+protected:
+  void spawnParticles(ParticleType type, int count)
+  {
+    ParticleSysyem& particles = Locator::getParticles();
+    particles.spawn(type, count);
+  }
+}
+## 관련자료
+- 업데이트 메서드 패턴(10장)에서 업데이트 메서드는 흔히 샌드박스 메서드이기도 하다.
+- 이와 상반된 패턴이 템플릿 메서드 패턴이다.(p237 참고)
+- 이 패턴을 퍼사드 패턴의 일종으로 볼 수도 있다.
+- [X] [하위 클래스 샌드박스 패턴 구현](https://github.com/noodlechoi/DesignPattern/tree/main/PracticeGame/Chapter12)

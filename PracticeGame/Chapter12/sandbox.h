@@ -38,6 +38,7 @@ protected:
 	}
 };
 
+// 제공 기능을 보조 클래스로 옮기기
 namespace Modified
 {
 	class Superpower
@@ -59,5 +60,27 @@ namespace Modified
 		void playSound(int sound, double volume) {}
 		void stopSound(int sound) {}
 		void setVolume(int sound) {}
+	};
+}
+
+// 상위 클래스 필요 객체 얻는 방법
+namespace HowGet
+{
+	class ParticleSystem {};
+
+	// 1. 생성자로
+	class SuperPower
+	{
+	private:
+		ParticleSystem* particles;
+	public:
+		SuperPower(ParticleSystem* particles) : particles{particles} {}
+	};
+
+	// 하위 클래스에서 무조건 인수로 받아야 한다는 문제 발생
+	class SkyLaunch : public SuperPower
+	{
+	public:
+		SkyLaunch(ParticleSystem* particles) : SuperPower(particles) {}
 	};
 }
