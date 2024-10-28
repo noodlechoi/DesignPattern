@@ -923,3 +923,15 @@ Bjorn* bjorn = new Bjorn(new PlayerInputComponent());
 // 데모 모드용
 Bjorn* bjorn = new Bjorn(new DemoInputComponent());
 ```
+#### 게임 객체 클래스로 변경
+- 별도 클래스 없이도 *팩토리 메서드 패턴* 을 사용하여 객체를 만들 수 있다.
+```
+// 비외른 객체 생성 함수
+GameObject* createBjorn()
+{
+  return new GameObject(
+  new PlayerInputComponent(),
+  new BjornPhysicsComponent(),
+  new BjornGraphicsComponent());
+}
+```

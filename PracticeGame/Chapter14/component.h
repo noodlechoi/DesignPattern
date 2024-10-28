@@ -72,23 +72,23 @@ namespace Tongjja
 
 namespace Component
 {
-	class Bjorn
+	class GameObject
 	{
 	private:
 		inputComponent* input_;
-		PhysicsComponent phsics_;
-		GraphicsComponent graphics_;
-
+		PhysicsComponent* phsics_;
+		GraphicsComponent* graphics_;
 	public:
 		int velocity_;
 		int x_, y_;
 
-		Bjorn(inputComponent* input) : velocity_{}, x_{}, y_{}, input_(input) {}
+		GameObject(inputComponent* input, PhysicsComponent* phsics, GraphicsComponent* graphics)
+			: velocity_{}, x_{}, y_{}, input_(input), phsics_(phsics), graphics_(graphics) {}
 		void update(World& world, Graphics& graphics)
 		{
 			input_->update(*this);
-			phsics_.update(*this, world);
-			graphics_.update(*this, graphics);
+			phsics_->update(*this, world);
+			graphics_->update(*this, graphics);
 		}
 	};
 
@@ -96,7 +96,7 @@ namespace Component
 	{
 	public:
 		virtual ~inputComponent() {}
-		virtual void update(Bjorn& bjorn) = 0;
+		virtual void update(GameObject& obj) = 0;
 	};
 
 	class PlayerInputComponent : public inputComponent
@@ -104,14 +104,14 @@ namespace Component
 	private:
 		static const int WALK_ACCELERATION = 1;
 	public:
-		virtual void update(Bjorn& bjorn)
+		virtual void update(GameObject& obj)
 		{
 			switch (Controller::getJoystickDirection()) {
 			case LEFT:
-				bjorn.velocity_ -= WALK_ACCELERATION;
+				obj.velocity_ -= WALK_ACCELERATION;
 				break;
 			case RIGHT:
-				bjorn.velocity_ += WALK_ACCELERATION;
+				obj.velocity_ += WALK_ACCELERATION;
 				break;
 			default:
 				break;
@@ -122,7 +122,7 @@ namespace Component
 	class DemoInputComponent : public inputComponent
 	{
 	public:
-		virtual void update(Bjorn& bjorn)
+		virtual void update(GameObject& obj)
 		{
 			// AI가 알아서 조정한다.
 		}
@@ -130,29 +130,44 @@ namespace Component
 
 	class PhysicsComponent
 	{
+	public:
+		virtual ~PhysicsComponent() {}
+		virtual void update(GameObject& obj, World& world) = 0;
+	};
+
+	class BjornPhysicsComponent : public PhysicsComponent
+	{
 	private:
 		Volume volume_;
 	public:
-		void update(Bjorn& bjorn, World& world)
+		virtual void update(GameObject& obj, World& world)
 		{
-			bjorn.x_ += bjorn.velocity_;
-			world.resolveCollision(volume_, bjorn.x_, bjorn.y_, bjorn.velocity_);
+			obj.x_ += obj.velocity_;
+			world.resolveCollision(volume_, obj.x_, obj.y_, obj.velocity_);
 		}
 	};
 
 	class GraphicsComponent
+	{
+
+	public:
+		virtual ~GraphicsComponent() {}
+		virtual void update(GameObject& obj, Graphics& graphics) = 0;
+	};
+
+	class BjornGraphicsComponent : public GraphicsComponent
 	{
 	private:
 		Sprite spriteStand_;
 		Sprite spriteWalkLeft_;
 		Sprite spriteWaltRight_;
 	public:
-		void update(Bjorn& bjorn, Graphics& graphics)
+		virtual void update(GameObject& obj, Graphics& graphics)
 		{
 			Sprite* sprite = &spriteStand_;
-			if (bjorn.velocity_ < 0) { sprite = &spriteWalkLeft_; }
-			else if (bjorn.velocity_ > 0) { sprite = &spriteWaltRight_; }
-			graphics.draw(*sprite, bjorn.x_, bjorn.y_);
+			if (obj.velocity_ < 0) { sprite = &spriteWalkLeft_; }
+			else if (obj.velocity_ > 0) { sprite = &spriteWaltRight_; }
+			graphics.draw(*sprite, obj.x_, obj.y_);
 		}
 	};
 }
