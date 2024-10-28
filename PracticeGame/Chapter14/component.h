@@ -75,7 +75,7 @@ namespace Component
 	class Bjorn
 	{
 	private:
-		inputComponent input_;
+		inputComponent* input_;
 		PhysicsComponent phsics_;
 		GraphicsComponent graphics_;
 
@@ -83,10 +83,10 @@ namespace Component
 		int velocity_;
 		int x_, y_;
 
-		Bjorn() : velocity_{}, x_{}, y_{} {}
+		Bjorn(inputComponent* input) : velocity_{}, x_{}, y_{}, input_(input) {}
 		void update(World& world, Graphics& graphics)
 		{
-			input_.update(*this);
+			input_->update(*this);
 			phsics_.update(*this, world);
 			graphics_.update(*this, graphics);
 		}
@@ -94,10 +94,17 @@ namespace Component
 
 	class inputComponent
 	{
+	public:
+		virtual ~inputComponent() {}
+		virtual void update(Bjorn& bjorn) = 0;
+	};
+
+	class PlayerInputComponent : public inputComponent
+	{
 	private:
 		static const int WALK_ACCELERATION = 1;
 	public:
-		void update(Bjorn& bjorn)
+		virtual void update(Bjorn& bjorn)
 		{
 			switch (Controller::getJoystickDirection()) {
 			case LEFT:
@@ -109,6 +116,15 @@ namespace Component
 			default:
 				break;
 			}
+		}
+	};
+
+	class DemoInputComponent : public inputComponent
+	{
+	public:
+		virtual void update(Bjorn& bjorn)
+		{
+			// AI가 알아서 조정한다.
 		}
 	};
 

@@ -912,3 +912,14 @@ Monster* monster = someBreed.newMonster();
     1. 자신을 정의하는 컴포넌트 집합을 관리한다.
     2. 컴포넌트들이 공유하는 상태를 들고 있다.
 - 아직 **추상화** 하지 않았다.
+#### 추상화(오토-비외른)
+- 어떤 클래스라도 IuputComponent 추상 인터페이스만 구현하면 입력 컴포넌트가 될 수 있다.
+- update()는 가상 메서드로 바뀌면서 *속도는 조금 느려졌다*
+- __객체를 생성할 때 다른 컴포넌트와 연결할 수 있다.__
+```
+// 입력 컴포넌트 전달
+Bjorn* bjorn = new Bjorn(new PlayerInputComponent());
+
+// 데모 모드용
+Bjorn* bjorn = new Bjorn(new DemoInputComponent());
+```
