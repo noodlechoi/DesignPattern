@@ -55,3 +55,37 @@ namespace standardBuffer
 	};
 }
 
+namespace circleBuffer
+{
+	class Audio
+	{
+	private:
+		static int head_;
+		static int tail_;
+		static const int MAX_PENDING = 16;
+		static PlayMessage pending_[MAX_PENDING];
+	public:
+		static void init()
+		{
+			head_ = 0;
+			tail_ = 0;
+		}
+		void playSound(SoundId id, int volume)
+		{
+			assert((tail_ + 1) % MAX_PENDING != head_);
+			pending_[tail_].id = id;
+			pending_[tail_].volume = volume;
+			tail_ = (tail_ + 1) % MAX_PENDING;
+		}
+		void update()
+		{
+			// 보류된 요청이 없다면 아무것도 하지 않는다.
+			if (head_ == tail_) return;
+			ResourceId resource = loadSound(pending_[head_].id);
+			int channel = findOpenChannel();
+			if (channel == -1) return;
+			startSound(resource, channel, pending_[head_].volume);
+			head_ = (head_ + 1) % MAX_PENDING;
+		}
+	};
+}
