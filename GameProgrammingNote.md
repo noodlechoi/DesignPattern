@@ -1136,7 +1136,7 @@ void playSound(SoundId id, int volume)
 - 이벤트 큐는 관찰 패턴(4장)의 비동기형이다.
 - 이벤트 큐는 *메시지 큐, 발행자/구독자(pubsub)* 라고 부르기도 한다. p301 참고
 - 상태 패턴(7장)과 유사한 유한 상태 기계(FSM)에서는 입력 값을 스트림으로 받는다. 서로 통신을 주고 받는 상태 기계가 여러 개 있고, 각자 입력을 보류하기 위해 소형 큐를 사용한다면, **계산 액터 모델** 을 만든 셈이 된다.
--[X] [이벤트 큐 예제 코드](https://github.com/noodlechoi/DesignPattern/tree/main/PracticeGame/Chapter15)
+- [X] [이벤트 큐 예제 코드](https://github.com/noodlechoi/DesignPattern/tree/main/PracticeGame/Chapter15)
 
 # Chapter 16. 서비스 중개자
 - 의도: 서비스를 구현한 구체 클래스는 숨긴 채로 어디에서나 서비스에 접근할 수 있게 한다.
