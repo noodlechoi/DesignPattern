@@ -1153,3 +1153,36 @@ void playSound(SoundId id, int volume)
 싱글턴이나 정적 클래스와는 다르게, 서비스 중개자 패턴에서는 **서비스 객체를 등록** 해야 하기 때문에 필요한 객체가 없을 때를 대비해야 한다.
 #### 서비스는 누가 자리를 가져다가 놓는지 모른다
 전역에서 접근 가능하기 떄문에 모든 코드에서 서비스를 요청하고 접근할 수 있다. 즉, __서비스는 어느 환경에서나 문제없이 동작해야 한다.__ 서비스는 정확히 정해진 곳에서만 실행되는 것을 보장할 수 없기 때문이다. **특정 상황에서만 실행되어야 한다면** 이 패턴을 적용하지 않는 것이 안전하다.
+### 예제 코드
+*이벤트 큐(15장)* 에서 다룬 오디오 시스템 문제를 서비스 중개자를 통해 제공한다.
+#### 단순한 중개자
+- 의존성 주입: 특정 객체가 필요로 하는 의존 객체를 외부 코드에서 주입
+```
+// Locator, 의존성 주입 기법 사용
+class Locator
+{
+private:
+	static Audio* service_;
+public:
+	static Audio* getAudio() { return service_; } // 중개 역할
+	static void provide(Audio* service) { service_ = service; }
+};
+```
+```
+// getAudio 함수의 서비스 인스턴스 반환
+Audio* audio = Locator::getAudio();
+audio->playSound(VERY_LOUD_BANG);
+```
+```
+// Locator의 서비스 등록 방법
+ConsoleAudio* audio = new ConsoleAudio();
+Locator::provide(audio);
+```
+__꼭 서비스 중개자 패턴용으로 만들지 않은 기존 클래스에도 이 패턴을 적용할 수 있다.__
+#### 널 서비스
+서비스를 등록하기 전에 사용하려고 시도하면 **NULL을 반환한다.** 이때 호출하는 쪽에서 NULL 검사를 하지 않으면 크래시 된다. [시간적 결합(temporal coupling)](https://joyyir.github.io/the%20pragmatic%20programmer/the-pragmatic-programmer-28/#)
+- **널 객체(Bull Object)** 디자인 패턴은 NULL을 반환해야 할 때, 대신 같은 인터페이스를 구현한 특수한 객체를 반환한다. 안전하게 작업을 진행할 수 있다. 널 서비스는 **의도적으로** 특정 서비스를 못 찾게 하고 싶을 때도 유용하다.
+#### 로그 데코레이터
+조건적으로 로그를 남기고 싶은 시스템이 서비스로 노출되어 있다면 GoF의 *데코레이터 패턴(장식자 패턴)* 으로 로그 문제를 해결할 수 있다.
+- 실제 기능 요청은 내부에 있는 서비스에 전달하고, 대신 사운드가 호출될 때마다 로그를 남긴다.
+- 널 서비스에 적용하면 사운드는 **비활성화** 해놓고 정상적으로 사운드가 활성화되었다면 어떤 사운드가 출력되었을지를 로그로 확인할 수 있다.
