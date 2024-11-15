@@ -1279,4 +1279,93 @@ public:
 - 간단하게 프로파일링할 때, 시간이 얼마나 지났는지 직접 타이머 코드를 넣어서 확인한다.
 ### 주의사항
 포인터나 레퍼런스를 통한 객체 접근은 캐시 미스가 발생한다. 추상화를 일부 포기해야 한다.
+### 예제 코드
+#### 연속 배열
+```
+while (!gameOver) {
+	// AI
+	for (int i = 0; i < numEntities; ++i) {
+		entities[i]->ai()->update();
+	}
+	// 물리
+	for (int i = 0; i < numEntities; ++i) {
+		entities[i]->physics()->update();
+	}
+	// 렌더링
+	for (int i = 0; i < numEntities; ++i) {
+		entities[i]->render()->render();
+	}
+}
+```
+위에 있는 코드는 다음과 같은 문제가 발생한다.
+1. 게임 자체가 배열에 포인터로 저장되어 있어서 접근할 때마다 **캐시 미스** 가 발생한다.
+2. 게임 개체는 컴포넌트를 포인터로 들고 있어서 다시 한 번 캐시 미스가 발생한다.
+3. 컴포넌트를 업데이트한다.
+4. 모든 개체의 컴포넌트에 대해서 같은 작업을 반복한다.
+- 객체가 메모리에 어떻게 배치될지 우리가 알 수 없다.
+```
+// 자료형별로 큰 배열을 준비
+AIComponent* aiComponents = new AIComponent[MAX_ENTITIES];
+PhysicsComponent* physicsComponents = new PhysicsComponent[MAX_ENTITIES];
+RenderComponent* renderComponents = new RenderComponent[MAX_ENTITIES];
+```
+배열에 포인터가 아닌 **객체** 를 넣으면, 아래와 같이 게임 루프에서는 객체에 바로 접근할 수 있다.
+```
+while (!gameOver) {
+	// AI
+	for (int i = 0; i < numEntities; ++i) {
+		aiComponents[i].update();
+	}
+	// 물리
+	for (int i = 0; i < numEntities; ++i) {
+		PhysicsComponent[i].update();
+	}
+	// 렌더링
+	for (int i = 0; i < numEntities; ++i) {
+		RenderComponent[i].render();
+	}
+}
+```
+캡슐화를 많이 깨지 않고 빨라졌다. 게임 루프가 성능에 민감하기 때문에 게임 개체를 우회해서 __게임 개체 내부 데이터(컴포넌트)에 직접 접근__ 했다.
+#### 정렬된 데이터
+```
+for (int i = 0; i < numParticles_; ++i) {
+	if(particles_[i].isActive())
+		particles_[i].update();
+}
+```
+위에 코드와 같이 코드를 작성하면 아래와 같은 *문제* 가 발생한다.
+- CPU가 **분기 예측 실패(branch misprediction)** 를 겪으면서 파이프 지연(pipeline stall)이 생길 수 있다(p335 참고).
+- 활성 파티클이 적을 수록 메모리를 자주 건너뛰게 된다. 캐시 미스가 발생한다.
+__실제로 처리할 객체가 연속되어 있지 않으면 큰 도움이 되지 않는다.__ 해결법은 활성 파티클만 앞으로 *모아두면* 된다.
+```
+// 해결
+for (int i = 0; i < numActive_; ++i) {
+	particles_[i].update();
+}
+```
+배열을 정리할 때는 파티클이 활성화되면, 이를 비활성 파티클 맨 앞에 있는 것과 맞바꿔서 활성 파티클 맨 뒤로 옮긴다. 비활성으로 바꿀 때는 반대로 한다(p337 참고).
+#### 빈번한 코드와 한산한 코드 나누기
+자주 사용하지 않는 데이터를 같이 넣으면 컴포넌트 크기가 커져서 **캐시 라인에 들어갈 컴포넌트 개수가 줄어든다.** *해결책* 은 빈번한 코드와 한산한 코드를 나누는 것(hot/cold splitting)이다.
+```
+class AIComponent // 빈번한 부분
+{
+private:
+	Animation* animaion_;
+	double energy_;
+	Vector goalPos_;
+	LootDrop* loot_; // 포인터로 가리키게 한다. 두 부분을 두 개의 배열로 나란히 두면 포인터도 제거 가능
+public:
+	// 메서드
+};
 
+class LootDrop // 한산한 부분
+{
+	friend class AIComponent;
+	LootType drop_;
+	int minDrops_;
+	int maxDrops_;
+	double chanceOfDrop_;
+};
+```
+그러나 __위와 같이 데이터를 나누기는 굉장히 애매하다.__ 최적화하는 연습이 필요하다.

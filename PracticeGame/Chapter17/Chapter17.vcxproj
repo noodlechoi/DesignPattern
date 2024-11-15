@@ -133,6 +133,7 @@
     <None Include="component_update.xcodeproj\project.pbxproj" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dataLocal.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
