@@ -1434,3 +1434,21 @@ ID를 컴포넌트의 추상 식별자로 사용해 실제 컴포는트 객체 �
 기본 값을 변경하는 모든 코드가 더티 플래그를 같이 설정하도록 주의해야 한다. 이때 기본 값을 변경하는 코드를 인터페이스 같은 것으로 캡슐화하는 것도 좋다.
 #### 이전 파생 값을 메모리에 저장해둬야 한다
 이 패턴은 속도를 위해 메모리를 희생한다.
+### 예제 코드
+실제 구현은 어딘가에 있고 다음 클래스에서 이를 캡슐화했다고 가정한다.
+#### 최적화되지 않은 순회
+월드 변환을 인수로 하여 모든 하위 노드에 대해 재귀 호출을 한다.
+```
+void GraphNode::render(Transform parentWorld)
+{
+	Transform world = local_.combine(parentWorld);
+	if (mesh_) renderMesh(mesh_, world);
+	for (int i = 0; i < numChildren_; ++i) {
+		children_[i]->render(world);
+	}
+}
+```
+장면 그래프 전체를 그리는 함수는 아래와 같다.
+```
+graph->render(Transform::origin);
+```
