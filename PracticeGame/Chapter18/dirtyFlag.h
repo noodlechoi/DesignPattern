@@ -16,19 +16,33 @@ namespace dirtyFlag
 	class GraphNode	// 최상위 노드(루트)
 	{
 	private:
+		Transform world_;
+		bool dirty_;
 		Transform local_;
 		Mesh* mesh_;
 		GraphNode* children_[MAX_CHILDREN];
 		int numChildren_;
 	public:
-		GraphNode(Mesh* mesh) : mesh_{mesh}, local_{Transform::origin()} {}
-		void render(Transform parentWorld)	// graph->render(Transform::origin) => 루트 노드 호출
+		GraphNode(Mesh* mesh) : mesh_{ mesh }, local_{ Transform::origin() }, dirty_{ true } {}
+		void render(Transform parentWorld, bool dirty)
 		{
-			Transform world = local_.combine(parentWorld);
-			if (mesh_) renderMesh(mesh_, world);
-			for (int i = 0; i < numChildren_; ++i) {
-				children_[i]->render(world);
+			dirty |= dirty_;
+			if (dirty) {
+				world_ = local_.combine(parentWorld);
+				dirty_ = false;
 			}
+
+			if (mesh_) renderMesh(mesh_, world_);
+
+			for (int i = 0; i < numChildren_; ++i) {
+				children_[i]->render(world_, dirty);
+			}
+		}
+
+		void setTransform(Transform local)
+		{
+			local_ = local;
+			dirty_ = true;
 		}
 	};
 

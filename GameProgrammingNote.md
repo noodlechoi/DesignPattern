@@ -1452,3 +1452,22 @@ void GraphNode::render(Transform parentWorld)
 ```
 graph->render(Transform::origin);
 ```
+#### 더티 플래그 패턴 사용
+재귀 함수를 호출해야 하고 느리기 때문에 하위 노드의 더티 플래그 값을 켜지 않는다. 아래 코드와 같이 처리한다.
+```
+void render(Transform parentWorld, bool dirty)
+{
+	dirty |= dirty_;
+	if (dirty) {
+		world_ = local_.combine(parentWorld);
+		dirty_ = false;
+	}
+
+	if (mesh_) renderMesh(mesh_, world_);
+
+	for (int i = 0; i < numChildren_; ++i) {
+		children_[i]->render(world_, dirty);
+	}
+}
+```
+노드의 상위 노드 중에서 어느 한 노드라도 *참* 이라면 dirty 매개변수도 참이 된다. 그러나 이런 기법은 render() 이외에 최신 월드 변환 값을 필요로 하는 곳이 없을 때만 가능하다.
