@@ -1527,3 +1527,26 @@ void render(Transform parentWorld, bool dirty)
 객체 풀은 메모리 관리자를 통하지 않고 객체를 재사용하기 때문에 메모리를 완전히 초기화해주는 안전망이 없다. 게다가 새로운 객체용으로 할당받은 메모리에는 이전 객체의 상태가 거의 들어 있어서 초기화 여부를 구별하기 어렵다. 객체를 회수할 때 객체가 들어 있는 배열의 메모리를 *0xdeadbeef* 같은 특수한 값으로 초기화하는 **디버깅 기능을 추가** 하는 것이 좋다.
 #### 사용 중이지 않은 객체도 메모리에 남아 있다
 GC와 객체 풀을 같이 사용한다면 충돌에 주의해야 한다. 객체 풀에서는 사용하지 않는 객체라도 메모리에 계속 남는다. 이때 이들 객체가 *다른 객체를 참조* 하고 있다면 GC에서 그 객체를 회수 할 수 없다. 객체를 더 이상 사용하지 않을 때 객체에서 다른 객체를 참조하는 부분을 전부 정리해야 한다.
+### 예제 코드
+```
+void ParticlePool::animate()
+{
+	for (int i = 0; i < POOL_SIZE; ++i) {
+		particles_[i].animate();
+	}
+}
+```
+여기서 밖에서 동적 배열의 크기를 지정하거나 템플릿 매개변수로 크기를 전달할 수도 있다.
+```
+void ParticlePool::create(double x, double y, double xVel, double yVel, int lifetime)
+{
+	// 사용 가능한 파티클을 찾는다.
+	for (int i = 0; i < POOL_SIZE; ++i) {
+		if (!particles_[i].inUse()) {
+			particles_[i].init(x, y, xVel, yVel, lifetime);
+			return;
+		}
+	}
+}
+```
+위에 코드는 파티클을 생성할 때마다 사용 가능한 객체를 찾기 위해서 *전체 컬렉션을 순회* 해야 할 수도 있다. 풀이 크고 대부분 비어 있다면 이 작업이 느릴 수 있다.
