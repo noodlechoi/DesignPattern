@@ -1550,3 +1550,69 @@ void ParticlePool::create(double x, double y, double xVel, double yVel, int life
 }
 ```
 위에 코드는 파티클을 생성할 때마다 사용 가능한 객체를 찾기 위해서 *전체 컬렉션을 순회* 해야 할 수도 있다. 풀이 크고 대부분 비어 있다면 이 작업이 느릴 수 있다.
+#### 빈칸 리스트(free list)
+사용 가능한 파티클 객체 포인터를 *별도의 리스트* 에 저장한다. 메모리를 희생하지 않고 사용하지 않는 *파티클 객체의 데이터 일부* 활용하는 빈칸 리스트 기법을 사용한다.
+```
+class Particle
+{
+private:
+	int framesLeft_;
+	union {
+		// 사용 중일 때의 상태
+		struct {
+			double x, y;
+			double xVel, yVel;
+		} live;
+
+		// 사용중이 아닐 때의 상태
+		Particle* next;
+	} state_;
+public:
+	// 원래 있던 코드들
+
+	Particle* getNext() const { return state_.next; }
+	void setNext(Particle* next)
+	{
+		state_.next = next;
+	}
+};
+```
+live 구조체에는 파티클이 살아 있는 동안의 상태를 둔다. 사용 중이 아닐 때에는 공용체의 다른 변수인 next가 사용된다. 객체 풀 클래스는 다음과 같다.
+```
+ParticlePool::ParticlePool()
+{
+	// 처음 파티클부터 사용 가능하다.
+	firstAvailable_ = &particles_[0];
+
+	// 모든 파티클은 다음 파티클을 가리킨다.
+	for (int i = 0; i < POOL_SIZE - 1; ++i) {
+		particles_[i].setNext(&particles_[i + 1]);
+	}
+
+	// 마지막 파티클에서 리스트를 종료한다.
+	particles_[POOL_SIZE - 1].setNext(nullptr);
+}
+
+void ParticlePool::create(double x, double y, double xVel, double yVel, int lifetime)
+{
+	// 풀이 비어 있지 않은지 확인한다.
+	assert(firstAvailable_ != nullptr);
+
+	// 얻은 파티클을 빈칸 목록에서 제거한다.
+	Particle* newParticle = firstAvailable_;
+	firstAvailable_ = newParticle->getNext();
+	newParticle->init(x, y, xVel, yVel, lifetime);
+}
+
+void ParticlePool::animate()
+{
+	for (int i = 0; i < POOL_SIZE; ++i) {
+		if (particles_[i].animate()) {
+			// 방금 죽은 파티클을 빈칸 리스트 앞에 추가한다.
+			particles_[i].setNext(firstAvailable_);
+			firstAvailable_ = &particles_[i];
+		}
+	}
+}
+```
+복잡도가 O(n)에서 O(1)로 줄었다.
