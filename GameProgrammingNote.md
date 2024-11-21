@@ -1698,9 +1698,9 @@ void handleMelee()
 }
 void handleCell(Unit* unit)
 {
-	while (!unit) {
+	while(unit) {
 		Unit* other = unit->next_;
-		while (!other) {
+		while (other) {
 			if (unit->x_ == other->x_ && unit->y_ == other->y_) {
 				handleAttack(unit, other);
 			}
@@ -1710,5 +1710,70 @@ void handleCell(Unit* unit)
 	}
 }
 ```
-위 코드는 모든 유닛 쌍에 대해서 같은 위치에 있는지 검사한다. 이전과의 차이점은 더 이상 전장에 있는 **모든** 유닛을 확인하지 않고, 가까운 유닛들만 검사한다. 다만 4중첩 루프이기 때문에 칸이 얼마나 *잘게* 쪼개져 있느냐에 따라 결과가 다를 수 있다.
+위 코드는 모든 유닛 쌍에 대해서 같은 위치에 있는지 검사한다. 이전과의 차이점은 더 이상 전장에 있는 **모든** 유닛을 확인하지 않고, 가까운 유닛들만 검사한다. 다만 4중첩 루프이기 때문에 칸이 얼마나 *잘게* 쪼개져 있느냐에 따라 결과가 다를 수 있다.   
+유닛이 지금 있는 칸 너머로 이동하면 어느 유닛도 그 유닛을 볼 수 없게 된다. 이를 해결하기 위해 유닛이 이동할 때마다 아래 코드와 같이 추가 작업을 해야 한다.
+```
+void move(Unit* unit, double x, double y)
+{
+	// 유닛이 어느 칸에 있었는지 확인한다.
+	int oldCellX = (int)(unit->x_ / Grid::CELL_SIZE);
+	int oldCellY = (int)(unit->y_ / Grid::CELL_SIZE);
 
+	// 유닛이 어느 칸으로 가야하는지 확인한다.
+	int cellX = (int)(x / Grid::CELL_SIZE);
+	int cellY = (int)(y / Grid::CELL_SIZE);
+
+	unit->x_ = x;
+	unit->y_ = y;
+
+	// 칸이 바뀌지 않았다면 더 할 일이 없다.
+	if (oldCellX == cellX && oldCellY == cellY) {
+		return;
+	}
+
+	// 이전 칸에 들어 있는 리스트에서 유닛을 제거
+	if (unit->prev_) {
+		unit->prev_->next_ = unit->next_;
+	}
+
+	if (unit->next_) {
+		unit->next_->prev_ = unit->prev_;
+	}
+
+	// 유닛이 칸에 들어 있는 리스트의 머리였다면 머리를 바꿔준다.
+	if (cells_[oldCellX][oldCellY] == unit) {
+		cells_[oldCellX][oldCellY] = unit->next_;
+	}
+
+	// 새로 들어갈 칸에 추가한다.
+	add(unit);
+}
+```
+칸이 넘어가면 유닛을 현재 칸에서 제거하고 새로운 칸에 추가한다.   
+앞선 예제들에서는 같은 위치에 있는 유닛끼리만 상호작용한다. 그러나 게임에서는 공격 **범위(distance)** 를 고려해야 한다. 이때 아래와 같이 조금 더 넓게 검사하도록 바꾸면 된다.
+```
+if (distance(unit, other) < ATTACK_DISTANCE) {
+	handleAttack(unit, other);
+}
+```
+```
+void handleCell(int x, int y)
+{
+	Unit* unit = cells_[x][y];
+	while (unit) {
+		// 이 칸에 들어있는 다른 유닛을 처리한다.
+		handleUnit(unit, unit->next_);
+
+		// 확장
+		// 주변 칸에 들어 있는 유닛들도 확인한다.
+		if (x > 0) handleUnit(unit, cells_[x - 1][y]);
+		if (y > 0) handleUnit(unit, cells_[x][y - 1]);
+		if (x > 0 && y > 0) handleUnit(unit, cells_[x - 1][y - 1]);
+		if (x > 0 && y > NUM_CELLS - 1) handleUnit(unit, cells_[x - 1][y + 1]);
+
+		unit = unit->next_;
+	}
+}
+```
+위에 예제는 같은 유닛끼리 두 번 검사하는 것을 막기 위해 현재 유닛을 다음 유닛부터 검사했다. 마찬가지로 주변 칸도 *절반* 만 검사한다. 일반적으로는 8칸을 다 검사해야 하지만 예제 코드는 충돌 검사에 가깝기 때문에 절반만 검사했다.   
+지금까지는 최대 공격 범위가 한 칸의 크기보다 짧다고 가정했다. 만약 칸의 크기가 짧고 공격 범위가 더 길다면 주변 칸을 더 넓게 검색해야 한다.

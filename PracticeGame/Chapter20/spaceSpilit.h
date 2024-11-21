@@ -18,7 +18,10 @@ namespace spaceSpilit
 		{
 			grid_->add(this);
 		}
-		void move(double x, double y);
+		void move(double x, double y)
+		{
+			grid_->move(this, x, y);
+		}
 		
 	};
 
@@ -62,19 +65,66 @@ namespace spaceSpilit
 				}
 			}
 		}
-		void handleCell(Unit* unit)
+		void handleCell(int x, int y)
 		{
-			while (!unit) {
-				Unit* other = unit->next_;
-				while (!other) {
-					if (unit->x_ == other->x_ && unit->y_ == other->y_) {
-						handleAttack(unit, other);
-					}
-					other = other->next_;
-				}
+			Unit* unit = cells_[x][y];
+			while (unit) {
+				// 이 칸에 들어있는 다른 유닛을 처리한다.
+				handleUnit(unit, unit->next_);
+
+				// 확장
+				// 주변 칸에 들어 있는 유닛들도 확인한다.
+				if (x > 0) handleUnit(unit, cells_[x - 1][y]);
+				if (y > 0) handleUnit(unit, cells_[x][y - 1]);
+				if (x > 0 && y > 0) handleUnit(unit, cells_[x - 1][y - 1]);
+				if (x > 0 && y > NUM_CELLS - 1) handleUnit(unit, cells_[x - 1][y + 1]);
+
 				unit = unit->next_;
 			}
 		}
-	};
+		void handleUnit(Unit* unit, Unit* other)
+		{
+			while (other) {
+				if (distance(unit, other) < ATTACK_DISTANCE) {
+					handleAttack(unit, other);
+				}
+				other = other->next_;
+			}
+		}
+		void move(Unit* unit, double x, double y)
+		{
+			// 유닛이 어느 칸에 있었는지 확인한다.
+			int oldCellX = (int)(unit->x_ / Grid::CELL_SIZE);
+			int oldCellY = (int)(unit->y_ / Grid::CELL_SIZE);
 
+			// 유닛이 어느 칸으로 가야하는지 확인한다.
+			int cellX = (int)(x / Grid::CELL_SIZE);
+			int cellY = (int)(y / Grid::CELL_SIZE);
+
+			unit->x_ = x;
+			unit->y_ = y;
+
+			// 칸이 바뀌지 않았다면 더 할 일이 없다.
+			if (oldCellX == cellX && oldCellY == cellY) {
+				return;
+			}
+
+			// 이전 칸에 들어 있는 리스트에서 유닛을 제거
+			if (unit->prev_) {
+				unit->prev_->next_ = unit->next_;
+			}
+
+			if (unit->next_) {
+				unit->next_->prev_ = unit->prev_;
+			}
+
+			// 유닛이 칸에 들어 있는 리스트의 머리였다면 머리를 바꿔준다.
+			if (cells_[oldCellX][oldCellY] == unit) {
+				cells_[oldCellX][oldCellY] = unit->next_;
+			}
+
+			// 새로 들어갈 칸에 추가한다.
+			add(unit);
+		}
+	};
 }
