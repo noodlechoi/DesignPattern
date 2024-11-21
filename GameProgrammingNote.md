@@ -1684,3 +1684,31 @@ if (particle != nullptr) particle->init(1, 2);
 - 이 패턴을 사용하면 O(n^2)인 복잡도를 낮출 수 있다. __객체가 많을 수록 의미가 있다.__
 - 객체의 위치 변경을 처리하기가 훨씬 어렵다. 바뀐 위치에 맞춰 자료구조를 *재정리* 해야 하기 때문에 **코드가 더 복잡하고 CPU도 더 소모한다.**
 - **추가 메모리** 가 필요하다. 이 패턴은 속도를 위해 메모리를 희생한다. CPU보다 메모리가 더 부족한 곳에서는 오히려 손해일 수도 있다.
+### 예제 코드
+이 책에서는 가장 간단한 공간 분할 형식인 **고정 격자(fixed grid)** 방법을 소개한다.   
+위치가 칸의 범위 안에 들어오는 것을 저장한다.
+```
+void handleMelee()
+{
+	for (int x = 0; x < NUM_CELLS; ++x) {
+		for (int y = 0; y < NUM_CELLS; ++y) {
+			handleCell(cells_[x][y]);
+		}
+	}
+}
+void handleCell(Unit* unit)
+{
+	while (!unit) {
+		Unit* other = unit->next_;
+		while (!other) {
+			if (unit->x_ == other->x_ && unit->y_ == other->y_) {
+				handleAttack(unit, other);
+			}
+			other = other->next_;
+		}
+		unit = unit->next_;
+	}
+}
+```
+위 코드는 모든 유닛 쌍에 대해서 같은 위치에 있는지 검사한다. 이전과의 차이점은 더 이상 전장에 있는 **모든** 유닛을 확인하지 않고, 가까운 유닛들만 검사한다. 다만 4중첩 루프이기 때문에 칸이 얼마나 *잘게* 쪼개져 있느냐에 따라 결과가 다를 수 있다.
+
