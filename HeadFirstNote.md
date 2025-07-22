@@ -130,6 +130,7 @@ Chapter 4. 팩토리 패턴
     + 서로 연관되거나 의존적인 객체들을 일관된 방식으로 생성하는 데 사용된다.
     + 객체 구성을 사용하여 제품을 만든다.
 ### 생각해보기
+[팩토리 GPT 정리](https://chatgpt.com/share/687f670c-773c-8012-b118-518f501d346d)
 * * *
 #### 과제
   - 피자 코드 C++로 구현 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter4)
