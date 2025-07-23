@@ -379,6 +379,7 @@ Chapter 12. 복합 패턴
 * * *
 ### 과제
   - 여러 가지 패턴 구현 [완료](https://github.com/noodlechoi/DesignPattern/tree/main/Practice/Chapter_12)
+  - [GPT MVC 질문](https://chatgpt.com/share/6880c6b6-1e98-8012-80c7-e0923021773b)
 
 
 Chapter 13. 실전 디자인 패턴
